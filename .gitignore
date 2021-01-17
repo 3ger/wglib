@@ -1,0 +1,12 @@
+node_modules
+coverage
+dist/*
+.cache
+.env
+
+# temp files
+.DS_Store
+Thumbs.db
+Desktop.ini
+npm-debug.log
+

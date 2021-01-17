@@ -1,0 +1,181 @@
+body {
+   overflow: hidden;
+   margin: 0 auto;
+   background-color: black;
+}
+
+.testBox {
+   border-width: 5px;
+   border-color: #da502e25;
+   border-radius: 0px;
+   background-color: rgba(128, 128, 128, 0.1);
+   --border-draw-alignment: 0.5;
+   height: 940px;
+   width: 990px;
+   left: 5px;
+   top: 50px;
+}
+
+.testBox title {
+   color: #f0b0025b;
+   font-size: 50px;
+   text-align: center;
+   font-weight: 900;
+   top: -55px;
+   font-family: sans-serif;
+}
+
+/* defaultBox */
+
+.defaultBox {
+   border-width: 1px;
+   border-color: #000000;
+   border-radius: 5px;
+   --border-draw-alignment: 0;
+   background-color: rgba(72, 101, 129, 1);
+   height: 50px;
+   width: 200px;
+   border-style: solid;
+   left: 300px;
+   top: 300px;
+}
+
+.defaultBox title {
+   color: #78cc7c;
+   font-size: 26px;
+   font-weight: normal;
+   top: 0px;
+   left: 0px;
+   padding: 0px;
+   text-align: center;
+   vertical-align: middle;
+   font-weight: bold;
+   font-family: "Courier New", Courier, monospace;
+}
+
+.defaultBox:hover {
+   opacity: 1.2;
+   cursor: move;
+}
+
+.defaultBox:active {
+   opacity: 0.5;
+   animation-duration: 100ms;
+}
+
+.defaultBox element1 {
+   color: #990e0e;
+   font-size: 25px;
+   font-weight: normal;
+   top: 0px;
+   left: 0px;
+   padding: 0px;
+   text-align: center;
+   vertical-align: middle;
+   font-weight: bold;
+   font-family: "Courier New", Courier, monospace;
+}
+
+/* testBox2 */
+
+.testBox2 {
+   border: 2px dashed #000000;
+   border-radius: 5px;
+   background-color: #dddddd7c;
+   top: 400px;
+   left: 100px;
+   width: 300px;
+}
+
+.testBox2 title {
+   color: #000000;
+   text-align: center;
+   font-weight: 700;
+   font-size: xx-large;
+   vertical-align: middle;
+   font-family: Arial, Helvetica, sans-serif;
+}
+
+.testBox2:hover {
+   opacity: 2;
+   cursor: pointer;
+}
+
+.testBox2:active {
+   opacity: 0.5;
+   animation-duration: 100ms;
+}
+
+/* defaultBoxContainer */
+
+.defaultBoxContainer:active {
+   opacity: 0.5;
+}
+
+/* containerBox */
+
+.containerBox {
+   border: 2px none #000000;
+   border-radius: 5px;
+   background-color: #110a0a2c;
+   width: 310px;
+   height: 350px;
+   top: -50px;
+   left: -5px;
+}
+
+.containerBox title {
+   color: #000000;
+   text-align: center;
+   font-weight: 700;
+   font-size: xx-large;
+   vertical-align: top;
+   font-family: Arial, Helvetica, sans-serif;
+}
+
+.defaultConnectionStartBox {
+   border-width: 1px;
+   border-color: #000000;
+   border-radius: 10px;
+   --border-draw-alignment: 0;
+   --drag-out-offset: 100;
+   --drag-start-side: 1; /* where does it start drawing the drag out for line, 0-center, 1-right, 2-left  */
+   background-color: rgb(10, 54, 95);
+   width: 40px;
+   height: 30px;
+   top: -45px;
+   left: 285px;
+}
+
+.defaultConnectionStartBox:hover {
+   opacity: 2;
+}
+
+.defaultConnectionEndBox {
+   border-width: 1px;
+   border-color: #000000;
+   border-radius: 2px;
+   --border-draw-alignment: 0;
+   --drag-out-offset: -100;
+   --drag-start-side: 2; /* where does it start drawing the drag out for line, 0-center, 1-right, 2-left  */
+   background-color: rgba(72, 101, 129, 1);
+   width: 30px;
+   height: 30px;
+   top: 10px;
+   left: -15px;
+}
+.defaultConnectionEndBox:hover {
+   opacity: 2;
+}
+
+.defaultLine {
+   border-width: 10px;
+   border-color: #f06b1286;
+   --border-draw-alignment: 0;
+}
+
+.defaultConnector {
+   border-width: 10px;
+   border-color: #827cd4;
+   --border-draw-alignment: 0;
+}
