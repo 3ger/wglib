@@ -3,6 +3,7 @@ const path = require("path");
 const webpack = require("webpack");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
+const NpmDtsPlugin = require("npm-dts-webpack-plugin");
 
 module.exports = {
    entry: path.resolve(__dirname, "src") + "/core/WgLib.ts",
@@ -45,6 +46,10 @@ module.exports = {
       new CleanWebpackPlugin(),
       new CopyWebpackPlugin({
          patterns: [path.resolve(__dirname, "./src", "wglib.css")],
+      }),
+      new NpmDtsPlugin({
+         entry: path.resolve(__dirname, "src") + "/core/wglib.ts",
+         output: path.resolve(__dirname, "dist") + "/wglib.d.ts",
       }),
    ],
 };
