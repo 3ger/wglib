@@ -1,8 +1,8 @@
-import { GraphElement } from "./GraphElement";
+import GraphElement from "./GraphElement";
 import { InteractionInterface } from "./InteractionInterface";
-import { Box } from "./Box";
+import Box from "./Box";
 
-export class BoxContainer extends GraphElement {
+export default class BoxContainer extends GraphElement {
    private elements = new Array<Box>();
 
    constructor(cssClass = "defaultBoxContainer", interaction?: InteractionInterface) {

@@ -1,5 +1,5 @@
-import { InteractionManager } from "pixi.js";
-import { Box } from "./Box";
+import { Container, DisplayObject, InteractionEvent, InteractionManager } from "pixi.js";
+import Box from "./Box";
 import { Connector } from "./Connector";
 import { InteractionArgs, InteractionInterface } from "./InteractionInterface";
 import { VisualLine } from "./VisualLine";
@@ -10,7 +10,7 @@ export abstract class ConnectorSocket extends Box {
 
    protected currentDragOut?: VisualLine | undefined;
    protected connectors: Array<Connector> = [];
-   private elToFollow = new PIXI.DisplayObject();
+   private elToFollow = new Container();
 
    constructor(cssClass: string, private interaction?: InteractionInterface) {
       super(cssClass, <InteractionInterface>{
@@ -70,7 +70,7 @@ export abstract class ConnectorSocket extends Box {
       e.stopPropagation();
    }
 
-   private dragging(arg: PIXI.InteractionEvent) {
+   private dragging(arg: InteractionEvent) {
       if (this.interaction && this.interaction.canDrag && this.interaction.onDragging) {
          const ev = new InteractionArgs(this, arg.data);
          this.interaction.onDragEnd(ev);

@@ -1,13 +1,14 @@
+import { Graphics, Text } from "pixi.js";
 import { WgLib } from "../core/WgLib";
 
 export class DebugPoint {
-   container: PIXI.Graphics;
+   container: Graphics;
 
    constructor(x: number, y: number, color = 0xff0000) {
-      this.container = new PIXI.Graphics();
+      this.container = new Graphics();
       this.container.lineStyle(1, color, 1, 0);
       this.container.drawRect(x - 2.5, y - 2.5, 5, 5);
-      const text = new PIXI.Text(`(${Math.floor(x)} : ${Math.floor(y)})`, { fontSize: 12, fill: color });
+      const text = new Text(`(${Math.floor(x)} : ${Math.floor(y)})`, { fontSize: 12, fill: color });
       text.position.x = x + 2;
       text.position.y = y + 2;
       this.container.addChild(text);
@@ -16,10 +17,10 @@ export class DebugPoint {
 }
 
 export class DebugBox {
-   container: PIXI.Graphics;
+   container: Graphics;
 
    constructor(x: number, y: number, w: number, h: number, color = 0xff0000) {
-      this.container = new PIXI.Graphics();
+      this.container = new Graphics();
       this.container.lineStyle(1, color, 1, 0);
       this.container.drawRect(x, y, w, h);
       this.container.zIndex = -9999;

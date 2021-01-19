@@ -1,6 +1,6 @@
 import { InteractionInterface } from "./InteractionInterface";
-import { Text } from "./Text";
-import { Box } from "./Box";
+import Text from "./Text";
+import Box from "./Box";
 
 export class TextBox extends Box {
    private textElement?: Text;

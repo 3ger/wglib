@@ -1,15 +1,15 @@
 import { CssCache } from "../helpers/CssHelper";
 import { DragHandler } from "./DragHandler";
-import { GraphElement } from "./GraphElement";
+import GraphElement from "./GraphElement";
 import { InteractionState } from "./InteractionState";
 import { InteractionArgs, InteractionInterface } from "./InteractionInterface";
-import { InteractionData, InteractionEvent } from "pixi.js";
+import { Filter, filters, InteractionData, InteractionEvent } from "pixi.js";
 
 export class InteractionManager {
    private dragHandler?: DragHandler;
    private interactionState = InteractionState.None;
-   private hoverFilter!: PIXI.Filter;
-   private clickFilter?: PIXI.Filter;
+   private hoverFilter!: Filter;
+   private clickFilter?: Filter;
    public canDrag: boolean;
 
    constructor(private parent: GraphElement, private interaction: InteractionInterface) {
@@ -26,7 +26,7 @@ export class InteractionManager {
       const vis = CssCache.getVisualProperties(this.parent.getCssClass() + ":active");
 
       if (vis) {
-         this.clickFilter = new PIXI.filters.AlphaFilter(vis.opacity || 0.5);
+         this.clickFilter = new filters.AlphaFilter(vis.opacity || 0.5);
       }
 
       if (this.canDrag) {
@@ -164,7 +164,7 @@ export class InteractionManager {
 
    private createHoverFilterAndCursor(): void {
       const vis = CssCache.getVisualProperties(this.parent.getCssClass() + ":hover");
-      this.hoverFilter = new PIXI.filters.AlphaFilter(vis?.opacity || 1.2);
+      this.hoverFilter = new filters.AlphaFilter(vis?.opacity || 1.2);
       this.parent.getContainer().cursor = vis?.cursor || "";
    }
 
@@ -202,7 +202,7 @@ export class InteractionManager {
    }
 
    // TODO: need also a cleanup, check if actually clean after removal of fn parent
-   public addDraggingCallback(fn: (data?: PIXI.InteractionData) => void): void {
+   public addDraggingCallback(fn: (data?: InteractionData) => void): void {
       if (this.dragHandler) this.dragHandler.onDragged(fn);
    }
 }

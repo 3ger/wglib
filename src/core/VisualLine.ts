@@ -1,6 +1,6 @@
 import { Graphics } from "pixi.js";
 
-import { GraphElement } from "./GraphElement";
+import GraphElement from "./GraphElement";
 
 export class VisualLine extends GraphElement {
    private line: Graphics = new Graphics();

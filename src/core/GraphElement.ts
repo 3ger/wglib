@@ -1,13 +1,13 @@
-import { Container } from "pixi.js";
+import { Container, InteractionData } from "pixi.js";
 import { InteractionManager } from "./InteractionManager";
 import { InteractionState } from "./InteractionState";
 import { InteractionInterface } from "./InteractionInterface";
 import { CssCache, VisualProperties } from "../helpers/CssHelper";
 import { Viewport } from "pixi-viewport";
 
-export abstract class GraphElement extends PIXI.Container {
+export default abstract class GraphElement extends Container {
    protected interactionManager?: InteractionManager;
-   protected vis?: VisualProperties;
+   protected vis: VisualProperties;
 
    constructor(protected cssClass: string, interaction?: InteractionInterface) {
       super();
@@ -71,7 +71,7 @@ export abstract class GraphElement extends PIXI.Container {
       return curParent as GraphElement;
    }
 
-   public addDraggingCallback(fn: (data?: PIXI.InteractionData) => void): void {
+   public addDraggingCallback(fn: (data?: InteractionData) => void): void {
       if (this.interactionManager) this.interactionManager.addDraggingCallback(fn);
    }
 }

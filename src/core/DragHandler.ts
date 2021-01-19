@@ -1,5 +1,5 @@
-import { InteractionEvent, DisplayObject } from "pixi.js";
-import { GraphElement } from "./GraphElement";
+import { InteractionEvent, DisplayObject, InteractionData } from "pixi.js";
+import GraphElement from "./GraphElement";
 import { InteractionArgs } from "./InteractionInterface";
 import { WgLib } from "./WgLib";
 
@@ -7,7 +7,7 @@ export class DragHandler {
    private isDragging = false;
    private dragData?: InteractionEvent;
    private elementPointerOffset: { x: number; y: number } = { x: 0, y: 0 };
-   private moveListeners: Array<(data?: PIXI.InteractionData) => void> = [];
+   private moveListeners: Array<(data?: InteractionData) => void> = [];
    private readonly element: DisplayObject;
 
    constructor(
@@ -74,7 +74,7 @@ export class DragHandler {
       this.dragData = undefined;
    }
 
-   public onDragged(fn: (data?: PIXI.InteractionData) => void): void {
+   public onDragged(fn: (data?: InteractionData) => void): void {
       this.moveListeners.push(fn);
    }
 }

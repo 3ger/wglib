@@ -1,7 +1,8 @@
-import { GraphElement } from "./GraphElement";
+import { Graphics } from "pixi.js";
+import GraphElement from "./GraphElement";
 import { InteractionInterface } from "./InteractionInterface";
 
-export class Box extends GraphElement {
+export default class Box extends GraphElement {
    constructor(cssClass = "defaultBox", interaction?: InteractionInterface, noDrawCall = false) {
       super(cssClass, interaction);
 
@@ -10,12 +11,12 @@ export class Box extends GraphElement {
 
    protected draw(): void {
       // draw a rectangle
-      const border = new PIXI.Graphics();
+      const border = new Graphics();
       border.beginFill(this.vis?.backgroundColor, this.vis?.backgroundColorAlpha);
 
       if (!this.vis?.borderStyle || this.vis.borderStyle !== "none") {
          border.lineStyle(
-            this.vis?.borderWidth,
+            this.vis.borderWidth,
             this.vis?.borderColor,
             this.vis?.borderColorAlpha,
             this.vis?.borderDrawAlignment

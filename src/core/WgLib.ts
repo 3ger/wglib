@@ -1,25 +1,25 @@
-import * as PIXI from "pixi.js";
 import { Viewport } from "pixi-viewport";
 import { WgSettings } from "./InitParams";
 import { TextBox } from "./TextBox";
-import { BoxContainer } from "./BoxContainer";
+import BoxContainer from "./BoxContainer";
 import { InteractionInterface } from "./InteractionInterface";
-import { GraphElement } from "./GraphElement";
+import GraphElement from "./GraphElement";
 import { CssCache } from "../helpers/CssHelper";
 import { ConnectorStart } from "./ConnectorStart";
 import { ConnectorEnd } from "./ConnectorEnd";
+import { AbstractRenderer, Application, utils } from "pixi.js";
 
 export class WgLib {
-   private static pixiApp: PIXI.Application;
+   private static pixiApp: Application;
    private static viewPort: Viewport;
    private elements: Array<GraphElement> = [];
 
    constructor(private config: WgSettings, private onLoaded?: () => void) {
       config = config || <WgSettings>{};
 
-      PIXI.utils.skipHello();
+      utils.skipHello();
 
-      WgLib.pixiApp = new PIXI.Application({
+      WgLib.pixiApp = new Application({
          width: config.CanvasSize.x,
          height: config.CanvasSize.y,
          backgroundColor: config.BackgroundColor,
@@ -197,7 +197,7 @@ export class WgLib {
    public static getViewport(): Viewport {
       return WgLib.viewPort;
    }
-   public static getRenderer(): PIXI.Renderer {
+   public static getRenderer(): AbstractRenderer {
       return WgLib.pixiApp.renderer;
    }
 }

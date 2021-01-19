@@ -1,4 +1,4 @@
-import { TextStyle } from "pixi.js";
+import { TextStyle, utils } from "pixi.js";
 import { Loader, LoadEventArgs } from "./Loader";
 
 export class CssCache {
@@ -6,7 +6,7 @@ export class CssCache {
    private static cssCache?: CSSRuleList;
    private static parsedCssCache: { [id: string]: VisualProperties } = {};
 
-   public static getVisualProperties(cssClass: string): VisualProperties | undefined {
+   public static getVisualProperties(cssClass: string): VisualProperties {
       if (!CssCache.IsInit) throw new Error("Using CssCache while it is not initialized. Call Init first");
 
       if (!CssCache.parsedCssCache.hasOwnProperty(cssClass)) {
@@ -14,7 +14,7 @@ export class CssCache {
          if (foundStyle) {
             CssCache.parsedCssCache[cssClass] = new VisualProperties(foundStyle);
          } else {
-            return undefined;
+            return new VisualProperties();
          }
       }
 
@@ -101,7 +101,7 @@ export class VisualProperties {
    readonly dragStartSide?: number;
 
    // border properties
-   readonly borderWidth?: number;
+   readonly borderWidth: number;
    readonly borderRadius?: number;
    readonly borderColor?: number;
    readonly borderColorAlpha?: number;
@@ -134,15 +134,15 @@ export class VisualProperties {
 
       this.textStyle = this.getTextStyle(cssstyle);
 
-      this.backgroundColor = PIXI.utils.string2hex(rgbToHex(cssstyle?.style?.backgroundColor || "rgb(255,255,255)"));
+      this.backgroundColor = utils.string2hex(rgbToHex(cssstyle?.style?.backgroundColor || "rgb(255,255,255)"));
       this.backgroundColorAlpha = getAlpha(cssstyle?.style?.backgroundColor);
 
-      this.color = PIXI.utils.string2hex(rgbToHex(cssstyle?.style?.color || "rgb(0,0,0)"));
+      this.color = utils.string2hex(rgbToHex(cssstyle?.style?.color || "rgb(0,0,0)"));
       this.colorAlpha = getAlpha(cssstyle?.style?.color);
 
       this.borderWidth = Number.parseInt(cssstyle?.style?.borderWidth || "1");
       this.borderRadius = Number.parseInt(cssstyle?.style?.borderRadius || "0");
-      this.borderColor = PIXI.utils.string2hex(rgbToHex(cssstyle?.style?.borderColor || "rgb(0,0,0)"));
+      this.borderColor = utils.string2hex(rgbToHex(cssstyle?.style?.borderColor || "rgb(0,0,0)"));
       this.borderColorAlpha = getAlpha(cssstyle?.style?.borderColor);
       this.borderStyle = cssstyle?.style?.borderStyle;
 
@@ -165,7 +165,7 @@ export class VisualProperties {
 
    private getTextStyle(cssstyle?: CSSStyleRule): TextStyle {
       return <TextStyle>{
-         fill: PIXI.utils.string2hex(rgbToHex(cssstyle?.style?.color || "rgb(0,0,0)")),
+         fill: utils.string2hex(rgbToHex(cssstyle?.style?.color || "rgb(0,0,0)")),
          fontSize: cssstyle?.style?.fontSize || "24px",
          fontStyle: cssstyle?.style?.fontStyle || "normal",
          fontWeight: cssstyle?.style?.fontWeight || "normal",

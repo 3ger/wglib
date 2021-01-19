@@ -1,5 +1,5 @@
-import { Box } from "./Box";
-import { Text } from "./Text";
+import Box from "./Box";
+import Text from "./Text";
 
 export abstract class BoxElement {
    abstract onAdded(parent: Box, position: { x: number; y: number }): void;

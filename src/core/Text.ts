@@ -1,6 +1,7 @@
 import { CssCache, VisualProperties } from "../helpers/CssHelper";
+import { Text as pixiText } from "pixi.js";
 
-export class Text extends PIXI.Text {
+export default class Text extends pixiText {
    private vis?: VisualProperties;
 
    constructor(text: string, cssClass: string) {

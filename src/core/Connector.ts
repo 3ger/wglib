@@ -1,5 +1,5 @@
 import { ConnectorSocket } from "./ConnectorSocket";
-import { GraphElement } from "./GraphElement";
+import GraphElement from "./GraphElement";
 import { InteractionInterface } from "./InteractionInterface";
 import { VisualLine } from "./VisualLine";
 import { WgLib } from "./WgLib";

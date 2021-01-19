@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const path = require("path");
-const webpack = require("webpack");
+// const webpack = require("webpack");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const NpmDtsPlugin = require("npm-dts-webpack-plugin");
 
 module.exports = {
-   entry: path.resolve(__dirname, "src") + "/core/WgLib.ts",
+   entry: path.resolve(__dirname, "src") + "/index.ts",
    mode: "production",
    output: {
       path: path.resolve(__dirname, "./dist"),
@@ -14,7 +14,7 @@ module.exports = {
       library: "wglib",
       libraryTarget: "umd",
       libraryExport: "WgLib",
-      umdNamedDefine: true,
+      // umdNamedDefine: true,
    },
    watchOptions: {
       ignored: /node_modules/,
@@ -40,15 +40,15 @@ module.exports = {
    },
    externals: { "pixi.js": "PIXI", "pixi-viewport": "Viewport" },
    plugins: [
-      new webpack.ProvidePlugin({
-         PIXI: "pixi.js",
-      }),
+      // new webpack.ProvidePlugin({
+      //    PIXI: "pixi.js",
+      // }),
       new CleanWebpackPlugin(),
       new CopyWebpackPlugin({
          patterns: [path.resolve(__dirname, "./src", "wglib.css")],
       }),
       new NpmDtsPlugin({
-         entry: path.resolve(__dirname, "src") + "/core/wglib.ts",
+         // entry: path.resolve(__dirname, "src") + "/index.ts",
          output: path.resolve(__dirname, "dist") + "/wglib.d.ts",
       }),
    ],

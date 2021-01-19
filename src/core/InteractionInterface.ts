@@ -1,4 +1,5 @@
-import { GraphElement } from "./GraphElement";
+import { InteractionData } from "pixi.js";
+import GraphElement from "./GraphElement";
 
 export interface InteractionInterface {
    onPointerDown(args: InteractionArgs): void;
@@ -20,7 +21,7 @@ export interface InteractionInterface {
 export class InteractionArgs {
    private stop = false;
 
-   constructor(public element: GraphElement, public eventData?: PIXI.InteractionData) {}
+   constructor(public element: GraphElement, public eventData?: InteractionData) {}
 
    public stopPropagation(): void {
       this.stop = true;
