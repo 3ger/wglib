@@ -37,7 +37,7 @@ export class WgLib {
          a.preventDefault();
       };
 
-      CssCache.init(undefined, () => {
+      CssCache.init(config.CssFile, () => {
          this.initStage(config);
       });
    }

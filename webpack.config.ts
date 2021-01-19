@@ -10,11 +10,8 @@ module.exports = {
    mode: "production",
    output: {
       path: path.resolve(__dirname, "./dist"),
-      filename: "wglib.js",
       library: "wglib",
       libraryTarget: "umd",
-      libraryExport: "WgLib",
-      // umdNamedDefine: true,
    },
    watchOptions: {
       ignored: /node_modules/,
@@ -38,7 +35,7 @@ module.exports = {
          },
       ],
    },
-   externals: { "pixi.js": "PIXI", "pixi-viewport": "Viewport" },
+   externals: { "pixi.js": "pixi.js", "pixi-viewport": "pixi-viewport" },
    plugins: [
       // new webpack.ProvidePlugin({
       //    PIXI: "pixi.js",
@@ -49,7 +46,7 @@ module.exports = {
       }),
       new NpmDtsPlugin({
          // entry: path.resolve(__dirname, "src") + "/index.ts",
-         output: path.resolve(__dirname, "dist") + "/wglib.d.ts",
+         output: path.resolve(__dirname, "dist") + "/main.d.ts",
       }),
    ],
 };
