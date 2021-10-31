@@ -3,7 +3,9 @@ import { DragHandler } from "./DragHandler";
 import GraphElement from "./GraphElement";
 import { InteractionState } from "./InteractionState";
 import { InteractionArgs, InteractionInterface } from "./InteractionInterface";
-import { Filter, filters, InteractionData, InteractionEvent } from "pixi.js";
+import { InteractionData, InteractionEvent } from "@pixi/interaction";
+import { Filter } from "@pixi/core";
+import { AlphaFilter } from "@pixi/filter-alpha";
 
 export class InteractionManager {
    private dragHandler?: DragHandler;
@@ -20,13 +22,13 @@ export class InteractionManager {
          typeof interaction.canDrag === "function"
             ? interaction.canDrag()
             : typeof interaction.canDrag === "boolean"
-            ? interaction.canDrag
-            : true;
+               ? interaction.canDrag
+               : true;
 
       const vis = CssCache.getVisualProperties(this.parent.getCssClass() + ":active");
 
       if (vis) {
-         this.clickFilter = new filters.AlphaFilter(vis.opacity || 0.5);
+         this.clickFilter = new AlphaFilter(vis.opacity || 0.5);
       }
 
       if (this.canDrag) {
@@ -80,7 +82,8 @@ export class InteractionManager {
          container.on("rightup", () => this.interaction.onRightUp(new InteractionArgs(this.parent)));
 
       container.on("pointerover", (e: InteractionEvent) => {
-         container.filters.push(this.hoverFilter);
+
+         container.filters?.push(this.hoverFilter);
          if (this.interaction.onPointerOver) {
             const ev = new InteractionArgs(this.parent);
             this.interaction.onPointerOver(ev);
@@ -89,7 +92,7 @@ export class InteractionManager {
       });
 
       container.on("pointerout", (e: InteractionEvent) => {
-         container.filters.splice(container.filters.indexOf(this.hoverFilter), 1);
+         container.filters?.splice(container.filters.indexOf(this.hoverFilter), 1);
          if (this.interaction.onPointerOut) {
             const ev = new InteractionArgs(this.parent);
             this.interaction.onPointerOut(ev);
@@ -105,8 +108,8 @@ export class InteractionManager {
       return typeof this.interaction.preventPropagation === "function"
          ? this.interaction.preventPropagation()
          : typeof this.interaction.preventPropagation === "boolean"
-         ? this.interaction.preventPropagation
-         : false;
+            ? this.interaction.preventPropagation
+            : false;
    }
 
    private handlePointerUp(e: InteractionArgs) {
@@ -147,7 +150,7 @@ export class InteractionManager {
    private applyClickFilter() {
       if (this.clickFilter) {
          const container = this.parent.getContainer();
-         if (!container.filters.includes(this.clickFilter)) container.filters.push(this.clickFilter);
+         if (!container.filters?.includes(this.clickFilter)) container.filters?.push(this.clickFilter);
       }
    }
 
@@ -155,16 +158,16 @@ export class InteractionManager {
       const container = this.parent.getContainer();
       if (
          this.clickFilter &&
-         container.filters.includes(this.clickFilter) &&
+         container?.filters?.includes(this.clickFilter) &&
          this.interactionState !== InteractionState.Dragged
       ) {
-         container.filters.splice(container.filters.indexOf(this.clickFilter), 1);
+         container?.filters.splice(container?.filters.indexOf(this.clickFilter), 1);
       }
    }
 
    private createHoverFilterAndCursor(): void {
       const vis = CssCache.getVisualProperties(this.parent.getCssClass() + ":hover");
-      this.hoverFilter = new filters.AlphaFilter(vis?.opacity || 1.2);
+      this.hoverFilter = new AlphaFilter(vis?.opacity || 1.2);
       this.parent.getContainer().cursor = vis?.cursor || "";
    }
 

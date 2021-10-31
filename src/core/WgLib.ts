@@ -7,7 +7,9 @@ import GraphElement from "./GraphElement";
 import { CssCache } from "../helpers/CssHelper";
 import { ConnectorStart } from "./ConnectorStart";
 import { ConnectorEnd } from "./ConnectorEnd";
-import { AbstractRenderer, Application, utils } from "pixi.js";
+import { AbstractRenderer } from "@pixi/core";
+import { Application } from "@pixi/app";
+import { skipHello } from "@pixi/utils";
 
 export class WgLib {
    private static pixiApp: Application;
@@ -17,7 +19,7 @@ export class WgLib {
    constructor(private config: WgSettings, private onLoaded?: () => void) {
       config = config || <WgSettings>{};
 
-      utils.skipHello();
+      skipHello();
 
       WgLib.pixiApp = new Application({
          width: config.CanvasSize.x,
@@ -30,9 +32,11 @@ export class WgLib {
       if (config.CanvasElement === undefined) document.body.appendChild(WgLib.pixiApp.view);
 
       // make sure no events from browser are done by the browser on this element
-      WgLib.pixiApp.view.oncontextmenu = (a) => {
-         a.preventDefault();
+      WgLib.pixiApp.view.oncontextmenu = (e: MouseEvent) => {
+         e.preventDefault();
+         if (this.config.OnContextMenu) this.config.OnContextMenu(e);
       };
+
       WgLib.pixiApp.view.onwheel = (a) => {
          a.preventDefault();
       };

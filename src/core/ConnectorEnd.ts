@@ -2,6 +2,7 @@ import { WgLib } from "./WgLib";
 import { ConnectorStart } from "./ConnectorStart";
 import { ConnectorSocket } from "./ConnectorSocket";
 import { Connector } from "./Connector";
+import { IPointData } from "@pixi/math";
 
 export class ConnectorEnd extends ConnectorSocket {
    protected aaaa = "ConnectorStart";
@@ -15,7 +16,7 @@ export class ConnectorEnd extends ConnectorSocket {
    }
 
    public getOutPosition(): { x: number; y: number } {
-      const elPosWorld = WgLib.getViewport().toWorld(this.getGlobalPosition());
+      const elPosWorld = WgLib.getViewport().toWorld(<IPointData>this.getPosition());
       return { x: elPosWorld.x, y: elPosWorld.y + this.height * 0.5 };
    }
 

@@ -1,4 +1,5 @@
-import { TextStyle, utils } from "pixi.js";
+import { TextStyle } from "@pixi/text";
+import { string2hex } from "@pixi/utils";
 import { Loader, LoadEventArgs } from "./Loader";
 
 export class CssCache {
@@ -21,7 +22,7 @@ export class CssCache {
       return CssCache.parsedCssCache[cssClass];
    }
 
-   public static async init(cssFile = "/src/wglib.css", onCompleteCallback?: () => void): Promise<void> {
+   public static async init(cssFile = "wglib.css", onCompleteCallback?: () => void): Promise<void> {
       if (CssCache.IsInit) return;
 
       this.IsInit = true;
@@ -134,15 +135,15 @@ export class VisualProperties {
 
       this.textStyle = this.getTextStyle(cssstyle);
 
-      this.backgroundColor = utils.string2hex(rgbToHex(cssstyle?.style?.backgroundColor || "rgb(255,255,255)"));
+      this.backgroundColor = string2hex(rgbToHex(cssstyle?.style?.backgroundColor || "rgb(255,255,255)"));
       this.backgroundColorAlpha = getAlpha(cssstyle?.style?.backgroundColor);
 
-      this.color = utils.string2hex(rgbToHex(cssstyle?.style?.color || "rgb(0,0,0)"));
+      this.color = string2hex(rgbToHex(cssstyle?.style?.color || "rgb(0,0,0)"));
       this.colorAlpha = getAlpha(cssstyle?.style?.color);
 
       this.borderWidth = Number.parseInt(cssstyle?.style?.borderWidth || "1");
       this.borderRadius = Number.parseInt(cssstyle?.style?.borderRadius || "0");
-      this.borderColor = utils.string2hex(rgbToHex(cssstyle?.style?.borderColor || "rgb(0,0,0)"));
+      this.borderColor = string2hex(rgbToHex(cssstyle?.style?.borderColor || "rgb(0,0,0)"));
       this.borderColorAlpha = getAlpha(cssstyle?.style?.borderColor);
       this.borderStyle = cssstyle?.style?.borderStyle;
 
@@ -165,7 +166,7 @@ export class VisualProperties {
 
    private getTextStyle(cssstyle?: CSSStyleRule): TextStyle {
       return <TextStyle>{
-         fill: utils.string2hex(rgbToHex(cssstyle?.style?.color || "rgb(0,0,0)")),
+         fill: string2hex(rgbToHex(cssstyle?.style?.color || "rgb(0,0,0)")),
          fontSize: cssstyle?.style?.fontSize || "24px",
          fontStyle: cssstyle?.style?.fontStyle || "normal",
          fontWeight: cssstyle?.style?.fontWeight || "normal",

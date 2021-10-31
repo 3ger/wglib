@@ -1,4 +1,5 @@
-import { Container, InteractionData } from "pixi.js";
+import { Container } from "@pixi/display";
+import { InteractionData } from "@pixi/interaction";
 import { InteractionManager } from "./InteractionManager";
 import { InteractionState } from "./InteractionState";
 import { InteractionInterface } from "./InteractionInterface";
