@@ -1,4 +1,4 @@
-import { InteractionData } from "@pixi/interaction";
+import { InteractionData } from "pixi.js";
 import GraphElement from "./GraphElement";
 
 export interface InteractionInterface {

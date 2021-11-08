@@ -1,4 +1,4 @@
-import { IPointData } from "@pixi/math";
+import { IPointData } from "pixi.js";
 import { Connector } from "./Connector";
 import { ConnectorEnd } from "./ConnectorEnd";
 import { ConnectorSocket } from "./ConnectorSocket";

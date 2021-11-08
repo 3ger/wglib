@@ -1,0 +1,34 @@
+{
+   "version": "2.0.0",
+   "tasks": [
+      {
+         "label": "goserve",
+         "type": "shell",
+         "command": "npm run dev",
+         "isBackground": true,
+         "promptOnClose": false,
+         "problemMatcher": {
+            "fileLocation": "relative",
+            "pattern": [
+               {
+                  "regexp": "^.*(waiting for changes).*$",
+                  "file": 1,
+                  "location": 2,
+                  "message": 3
+               }
+            ],
+            "background": {
+               "activeOnStart": true,
+               "beginsPattern": "^rollup v.*$",
+               "endsPattern": "^.*(created dist).*$"
+            }
+         }
+      },
+      {
+         "label": "killnpmme",
+         "type": "npm",
+         "script": "killme",
+         "problemMatcher": []
+      }
+   ]
+}

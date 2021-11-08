@@ -1,5 +1,4 @@
-import { Text } from "@pixi/text";
-import { Graphics } from '@pixi/graphics';
+import { Text, Graphics } from "pixi.js";
 import { WgLib } from "../core/WgLib";
 
 export class DebugPoint {

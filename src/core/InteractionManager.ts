@@ -3,9 +3,7 @@ import { DragHandler } from "./DragHandler";
 import GraphElement from "./GraphElement";
 import { InteractionState } from "./InteractionState";
 import { InteractionArgs, InteractionInterface } from "./InteractionInterface";
-import { InteractionData, InteractionEvent } from "@pixi/interaction";
-import { Filter } from "@pixi/core";
-import { AlphaFilter } from "@pixi/filter-alpha";
+import { Filter, filters, InteractionData, InteractionEvent } from "pixi.js";
 
 export class InteractionManager {
    private dragHandler?: DragHandler;
@@ -28,7 +26,7 @@ export class InteractionManager {
       const vis = CssCache.getVisualProperties(this.parent.getCssClass() + ":active");
 
       if (vis) {
-         this.clickFilter = new AlphaFilter(vis.opacity || 0.5);
+         this.clickFilter = new filters.AlphaFilter(vis.opacity || 0.5);
       }
 
       if (this.canDrag) {
@@ -167,7 +165,7 @@ export class InteractionManager {
 
    private createHoverFilterAndCursor(): void {
       const vis = CssCache.getVisualProperties(this.parent.getCssClass() + ":hover");
-      this.hoverFilter = new AlphaFilter(vis?.opacity || 1.2);
+      this.hoverFilter = new filters.AlphaFilter(vis?.opacity || 1.2);
       this.parent.getContainer().cursor = vis?.cursor || "";
    }
 

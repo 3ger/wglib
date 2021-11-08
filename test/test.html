@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="utf-8" />
+      <title>Wglib Tests</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+      <link rel="stylesheet" href="../node_modules/mocha/mocha.css" />
+      <script src="../node_modules/mocha/mocha.js"></script>
+      <script src="../node_modules/chai/chai.js"></script>
+
+      <script type="importmap">
+         {
+            "imports": {
+               "pixi.js": "../node_modules/pixi.js/dist/browser/pixi.mjs",
+               "@pixi/accessibility": "../node_modules/pixi.js/dist/browser/pixi.mjs",
+               "@pixi/app": "../node_modules/pixi.js/dist/browser/pixi.mjs",
+               "@pixi/compressed-textures": "../node_modules/pixi.js/dist/browser/pixi.mjs",
+               "@pixi/constants": "../node_modules/pixi.js/dist/browser/pixi.mjs",
+               "@pixi/core": "../node_modules/pixi.js/dist/browser/pixi.mjs",
+               "@pixi/display": "../node_modules/pixi.js/dist/browser/pixi.mjs",
+               "@pixi/extract": "../node_modules/pixi.js/dist/browser/pixi.mjs",
+               "@pixi/filter-alpha": "../node_modules/pixi.js/dist/browser/pixi.mjs",
+               "@pixi/filter-blur": "../node_modules/pixi.js/dist/browser/pixi.mjs",
+               "@pixi/filter-color-matrix": "../node_modules/pixi.js/dist/browser/pixi.mjs",
+               "@pixi/filter-displacement": "../node_modules/pixi.js/dist/browser/pixi.mjs",
+               "@pixi/filter-fxaa": "../node_modules/pixi.js/dist/browser/pixi.mjs",
+               "@pixi/filter-noise": "../node_modules/pixi.js/dist/browser/pixi.mjs",
+               "@pixi/graphics": "../node_modules/pixi.js/dist/browser/pixi.mjs",
+               "@pixi/interaction": "../node_modules/pixi.js/dist/browser/pixi.mjs",
+               "@pixi/loaders": "../node_modules/pixi.js/dist/browser/pixi.mjs",
+               "@pixi/math": "../node_modules/pixi.js/dist/browser/pixi.mjs",
+               "@pixi/mesh": "../node_modules/pixi.js/dist/browser/pixi.mjs",
+               "@pixi/mesh-extras": "../node_modules/pixi.js/dist/browser/pixi.mjs",
+               "@pixi/mixin-cache-as-bitmap": "../node_modules/pixi.js/dist/browser/pixi.mjs",
+               "@pixi/mixin-get-child-by-name": "../node_modules/pixi.js/dist/browser/pixi.mjs",
+               "@pixi/mixin-get-global-position": "../node_modules/pixi.js/dist/browser/pixi.mjs",
+               "@pixi/particle-container": "../node_modules/pixi.js/dist/browser/pixi.mjs",
+               "@pixi/prepare": "../node_modules/pixi.js/dist/browser/pixi.mjs",
+               "@pixi/runner": "../node_modules/pixi.js/dist/browser/pixi.mjs",
+               "@pixi/settings": "../node_modules/pixi.js/dist/browser/pixi.mjs",
+               "@pixi/sprite": "../node_modules/pixi.js/dist/browser/pixi.mjs",
+               "@pixi/sprite-animated": "../node_modules/pixi.js/dist/browser/pixi.mjs",
+               "@pixi/sprite-tiling": "../node_modules/pixi.js/dist/browser/pixi.mjs",
+               "@pixi/spritesheet": "../node_modules/pixi.js/dist/browser/pixi.mjs",
+               "@pixi/text": "../node_modules/pixi.js/dist/browser/pixi.mjs",
+               "@pixi/text-bitmap": "../node_modules/pixi.js/dist/browser/pixi.mjs",
+               "@pixi/ticker": "../node_modules/pixi.js/dist/browser/pixi.mjs",
+               "@pixi/utils": "../node_modules/pixi.js/dist/browser/pixi.mjs",
+               "penner": "./lib/penner.js",
+               "pixi-viewport": "./lib/viewport.es.js"
+            }
+         }
+      </script>
+   </head>
+   <body>
+      <div id="mocha"></div>
+      <canvas id="canv"></canvas>
+      <script src="test.js" type="module"></script>
+   </body>
+</html>

@@ -1,4 +1,4 @@
-import { Graphics } from "@pixi/graphics";
+import { Graphics } from "pixi.js";
 
 import GraphElement from "./GraphElement";
 

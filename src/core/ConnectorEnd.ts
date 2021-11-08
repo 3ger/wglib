@@ -2,7 +2,7 @@ import { WgLib } from "./WgLib";
 import { ConnectorStart } from "./ConnectorStart";
 import { ConnectorSocket } from "./ConnectorSocket";
 import { Connector } from "./Connector";
-import { IPointData } from "@pixi/math";
+import { IPointData } from "pixi.js";
 
 export class ConnectorEnd extends ConnectorSocket {
    protected aaaa = "ConnectorStart";

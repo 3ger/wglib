@@ -7,9 +7,8 @@ import GraphElement from "./GraphElement";
 import { CssCache } from "../helpers/CssHelper";
 import { ConnectorStart } from "./ConnectorStart";
 import { ConnectorEnd } from "./ConnectorEnd";
-import { AbstractRenderer } from "@pixi/core";
-import { Application } from "@pixi/app";
-import { skipHello } from "@pixi/utils";
+import { AbstractRenderer, Application, utils } from "pixi.js";
+
 
 export class WgLib {
    private static pixiApp: Application;
@@ -19,7 +18,7 @@ export class WgLib {
    constructor(private config: WgSettings, private onLoaded?: () => void) {
       config = config || <WgSettings>{};
 
-      skipHello();
+      utils.skipHello();
 
       WgLib.pixiApp = new Application({
          width: config.CanvasSize.x,

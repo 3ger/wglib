@@ -1,5 +1,4 @@
-import { InteractionEvent, InteractionData } from "@pixi/interaction";
-import { DisplayObject } from "@pixi/display";
+import { InteractionEvent, InteractionData, DisplayObject } from "pixi.js";
 import GraphElement from "./GraphElement";
 import { InteractionArgs } from "./InteractionInterface";
 import { WgLib } from "./WgLib";
