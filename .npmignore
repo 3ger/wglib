@@ -1,13 +1,14 @@
 # folders
-src
-demo
-tests
+test
+node_modules
 
 # files
 *.log
 *.code-workspace
 tsconfig.json
 webpack.config.js
+rollup.config.js
+rollup.test.config.js
 
 # toolchain
 webpack.config.ts
@@ -17,3 +18,4 @@ tsconfig.json
 .prettierrc
 .vscode
 .git
+.gitignore

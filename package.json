@@ -1,6 +1,6 @@
 {
    "name": "wglib",
-   "version": "1.0.8",
+   "version": "1.0.10",
    "description": "A library to draw simple interactive graphs - including css styling - based on Pixi.js.",
    "main": "dist/cjs/wglib.js",
    "module": "dist/esm/wglib.es.js",
@@ -10,7 +10,7 @@
    "scripts": {
       "clean": "rimraf ./dist",
       "clean-test": "rimraf ./test/out",
-      "build": "npm run clean && rollup -c",
+      "build": "npm run clean && rollup -c && xcopy \".\\src\\wglib.css\" \".\\dist\\wglib.css*\" /Y",
       "build-test": "npm run clean-test && rollup --config rollup.test.config.js -w",
       "dev": "start /b npm run build-test && npm run test",
       "killme": "Taskkill /IM node.exe /F",
@@ -19,7 +19,7 @@
    },
    "repository": {
       "type": "git",
-      "url": "git+https://github.com/3ger/wglib.git"
+      "url": "git+https://github.com/eg3r/wglib.git"
    },
    "keywords": [
       "graph",
@@ -28,12 +28,12 @@
       "web",
       "pixijs"
    ],
-   "author": "3ger",
+   "author": "eg3r",
    "license": "MIT",
    "bugs": {
-      "url": "https://github.com/3ger/wglib/issues"
+      "url": "https://github.com/eg3r/wglib/issues"
    },
-   "homepage": "https://github.com/3ger/wglib#readme",
+   "homepage": "https://github.com/eg3r/wglib#readme",
    "peerDependencies": {
       "pixi-viewport": "^4.34.0",
       "pixi.js": "^6.2.0"

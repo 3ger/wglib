@@ -1,7 +1,7 @@
 import { main } from "@pixi-build-tools/rollup-configurator/main";
 
 var obj = main({
-   excludeExternals: ['pixi-viewport'],
+   // excludedExternals: ['pixi-viewport'],
    production: true,
    input: "./test/test.ts",
    bundle: "./test/out/test.cjs.js",
