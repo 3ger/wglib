@@ -1,5 +1,5 @@
 import { Viewport } from "pixi-viewport";
-import { WgSettings } from "./InitParams";
+import { WgSettings } from "./WgSettings";
 import { TextBox } from "./TextBox";
 import BoxContainer from "./BoxContainer";
 import { InteractionInterface } from "./InteractionInterface";
