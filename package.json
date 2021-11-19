@@ -9,10 +9,13 @@
    "types": "index.d.ts",
    "scripts": {
       "clean": "rimraf ./dist",
+      "clean-test": "rimraf ./test/out",
       "build": "npm run clean && rollup -c",
-      "dev": "start /b rollup -c --watch && npm run test",
+      "build-test": "npm run clean-test && rollup --config rollup.test.config.js -w",
+      "dev": "start /b npm run build-test && npm run test",
       "killme": "Taskkill /IM node.exe /F",
-      "test": "browser-sync start --directory --no-open -s -w --files './test/*.*' './dist/*.*' --no-ui "
+      "test": "browser-sync start --directory --no-open -s -w --files './test/*.*' './dist/*.*' --no-ui ",
+      "dts": "npm-dts generate -e ./src/index.ts -o index.d.ts"
    },
    "repository": {
       "type": "git",
@@ -40,6 +43,7 @@
       "browser-sync": "^2.27.7",
       "chai": "^4.3.4",
       "mocha": "^9.1.3",
+      "npm-dts": "^1.3.10",
       "rimraf": "^3.0.2",
       "rollup": "^2.58.3",
       "typescript": ">=4.4.4"

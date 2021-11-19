@@ -20,7 +20,7 @@
             "background": {
                "activeOnStart": true,
                "beginsPattern": "^rollup v.*$",
-               "endsPattern": "^.*(created dist).*$"
+               "endsPattern": "^.*(waiting for changes).*$"
             }
          }
       },

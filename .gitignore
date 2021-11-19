@@ -3,6 +3,7 @@ coverage
 dist/*
 .cache
 .env
+test/out
 
 # temp files
 .DS_Store
