@@ -16,7 +16,7 @@ export class ConnectorEnd extends ConnectorSocket {
    }
 
    public getOutPosition(): { x: number; y: number } {
-      const elPosWorld = WgLib.getViewport().toWorld(<IPointData>this.getPosition());
+      const elPosWorld = WgLib.getViewport().toWorld(<IPointData>this.getGlobalPosition());
       return { x: elPosWorld.x, y: elPosWorld.y + this.height * 0.5 };
    }
 
