@@ -4,5 +4,4 @@ export interface WgSettings {
    CanvasSize: { x: number; y: number };
    WorkspaceSize: { x: number; y: number };
    BackgroundColor: number;
-   OnContextMenu?: (args: UIEvent) => void;
 }

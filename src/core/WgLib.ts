@@ -14,8 +14,9 @@ export class WgLib {
    private static pixiApp: Application;
    private static viewPort: Viewport;
    private elements: Array<GraphElement> = [];
+   private onContextMenuCallbacks: Array<(args: UIEvent) => void> = [];
 
-   constructor(private config: WgSettings, private onLoaded?: () => void) {
+   constructor(private config: WgSettings, private onLoaded?: () => void, onContextMenu?: (args: UIEvent) => void) {
       config = config || <WgSettings>{};
 
       utils.skipHello();
@@ -30,10 +31,14 @@ export class WgLib {
 
       if (config.CanvasElement === undefined) document.body.appendChild(WgLib.pixiApp.view);
 
+      if (onContextMenu) this.onContextMenuCallbacks.push(onContextMenu);
+
       // make sure no events from browser are done by the browser on this element
       WgLib.pixiApp.view.oncontextmenu = (e: MouseEvent) => {
          e.preventDefault();
-         if (this.config.OnContextMenu) this.config.OnContextMenu(e);
+         this.onContextMenuCallbacks.forEach(fncCall => {
+            fncCall(e);
+         });
       };
 
       WgLib.pixiApp.view.onwheel = (a) => {
@@ -197,9 +202,20 @@ export class WgLib {
       return this;
    }
 
+   public addEventListner(event: "contextmenu", func: (args: UIEvent) => void): void {
+      switch (event) {
+         case "contextmenu":
+            this.onContextMenuCallbacks.push(func);
+            break;
+         default:
+            throw new Error(`${event} is not supported by WgLib.`);
+      }
+   }
+
    public static getViewport(): Viewport {
       return WgLib.viewPort;
    }
+
    public static getRenderer(): AbstractRenderer {
       return WgLib.pixiApp.renderer;
    }
