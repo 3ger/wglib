@@ -11,8 +11,8 @@ import { AbstractRenderer, Application, utils } from "pixi.js";
 
 
 export class WgLib {
-   private static pixiApp: Application;
-   private static viewPort: Viewport;
+   private pixiApp: Application;
+   private viewPort!: Viewport;
    private elements: Array<GraphElement> = [];
    private onContextMenuCallbacks: Array<(args: UIEvent) => void> = [];
 
@@ -21,7 +21,7 @@ export class WgLib {
 
       utils.skipHello();
 
-      WgLib.pixiApp = new Application({
+      this.pixiApp = new Application({
          width: config.CanvasSize.x,
          height: config.CanvasSize.y,
          backgroundColor: config.BackgroundColor,
@@ -29,19 +29,19 @@ export class WgLib {
          view: config.CanvasElement,
       });
 
-      if (config.CanvasElement === undefined) document.body.appendChild(WgLib.pixiApp.view);
+      if (config.CanvasElement === undefined) document.body.appendChild(this.pixiApp.view);
 
       if (onContextMenu) this.onContextMenuCallbacks.push(onContextMenu);
 
       // make sure no events from browser are done by the browser on this element
-      WgLib.pixiApp.view.oncontextmenu = (e: MouseEvent) => {
+      this.pixiApp.view.oncontextmenu = (e: MouseEvent) => {
          e.preventDefault();
          this.onContextMenuCallbacks.forEach(fncCall => {
             fncCall(e);
          });
       };
 
-      WgLib.pixiApp.view.onwheel = (a) => {
+      this.pixiApp.view.onwheel = (a) => {
          a.preventDefault();
       };
 
@@ -51,20 +51,20 @@ export class WgLib {
    }
 
    private initStage(config: WgSettings) {
-      WgLib.viewPort = new Viewport({
+      this.viewPort = new Viewport({
          screenWidth: config.CanvasSize.x,
          screenHeight: config.CanvasSize.y,
          worldWidth: config.WorkspaceSize.x,
          worldHeight: config.WorkspaceSize.y,
-         interaction: WgLib.pixiApp.renderer.plugins.interaction,
+         interaction: this.pixiApp.renderer.plugins.interaction,
       });
 
       // add the viewport to the stage
-      WgLib.pixiApp.stage.addChild(WgLib.viewPort);
-      WgLib.pixiApp.stage.interactive = true;
+      this.pixiApp.stage.addChild(this.viewPort);
+      this.pixiApp.stage.interactive = true;
 
       // activate plugins
-      WgLib.viewPort
+      this.viewPort
          .drag({ clampWheel: true, underflow: "center" })
          .pinch()
          .wheel()
@@ -191,12 +191,12 @@ export class WgLib {
 
    public addElement(element: GraphElement, ...rest: GraphElement[]): WgLib {
       this.elements.push(element);
-      WgLib.getViewport().addChild(element.getContainer());
+      this.getViewport()?.addChild(element.getContainer());
 
       if (rest) {
          rest.forEach((el) => {
             this.elements.push(el);
-            WgLib.getViewport().addChild(el.getContainer());
+            this.getViewport()?.addChild(el.getContainer());
          });
       }
       return this;
@@ -212,11 +212,11 @@ export class WgLib {
       }
    }
 
-   public static getViewport(): Viewport {
-      return WgLib.viewPort;
+   public getViewport(): Viewport {
+      return this.viewPort;
    }
 
-   public static getRenderer(): AbstractRenderer {
-      return WgLib.pixiApp.renderer;
+   public getRenderer(): AbstractRenderer {
+      return this.pixiApp.renderer;
    }
 }

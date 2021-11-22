@@ -57,9 +57,8 @@ declare module 'wglib/core/Connector' {
    export class Connector extends GraphElement {
       private start;
       private end;
-      private interaction?;
       private line;
-      constructor(start: ConnectorSocket, end: ConnectorSocket, cssClass?: string, interaction?: InteractionInterface | undefined);
+      constructor(start: ConnectorSocket, end: ConnectorSocket, cssClass?: string, interaction?: InteractionInterface);
       private setupListners;
       protected draw(): void;
    }
@@ -69,7 +68,6 @@ declare module 'wglib/core/ConnectorEnd' {
    import { ConnectorSocket } from "wglib/core/ConnectorSocket";
    import { Connector } from "wglib/core/Connector";
    export class ConnectorEnd extends ConnectorSocket {
-      protected aaaa: string;
       getOutOffset(): number;
       canConnectTo(other: ConnectorSocket): boolean;
       getOutPosition(): {
@@ -87,7 +85,6 @@ declare module 'wglib/core/ConnectorSocket' {
    import { VisualLine } from "wglib/core/VisualLine";
    export abstract class ConnectorSocket extends Box {
       private interaction?;
-      protected aaaa: string;
       protected currentDragOut?: VisualLine | undefined;
       protected connectors: Array<Connector>;
       private elToFollow;
@@ -115,7 +112,6 @@ declare module 'wglib/core/ConnectorStart' {
    import { Connector } from "wglib/core/Connector";
    import { ConnectorSocket } from "wglib/core/ConnectorSocket";
    export class ConnectorStart extends ConnectorSocket {
-      protected aaaa: string;
       getOutOffset(): number;
       canConnectTo(other: ConnectorSocket): boolean;
       getOutPosition(): {
@@ -153,6 +149,7 @@ declare module 'wglib/core/GraphElement' {
    import { InteractionState } from "wglib/core/InteractionState";
    import { InteractionInterface } from "wglib/core/InteractionInterface";
    import { VisualProperties } from "wglib/helpers/CssHelper";
+   import { Viewport } from "pixi-viewport";
    export default abstract class GraphElement extends Container {
       protected cssClass: string;
       protected interactionManager?: InteractionManager;
@@ -171,6 +168,7 @@ declare module 'wglib/core/GraphElement' {
          y: number;
       };
       getTopParent(): GraphElement;
+      getViewport(): Viewport;
       addDraggingCallback(fn: (data?: InteractionData) => void): void;
    }
 
@@ -302,8 +300,8 @@ declare module 'wglib/core/WgLib' {
    export class WgLib {
       private config;
       private onLoaded?;
-      private static pixiApp;
-      private static viewPort;
+      private pixiApp;
+      private viewPort;
       private elements;
       private onContextMenuCallbacks;
       constructor(config: WgSettings, onLoaded?: (() => void) | undefined, onContextMenu?: (args: UIEvent) => void);
@@ -312,8 +310,8 @@ declare module 'wglib/core/WgLib' {
       addTextBox(title: string, cssClass: string, interaction: InteractionInterface): WgLib;
       addElement(element: GraphElement, ...rest: GraphElement[]): WgLib;
       addEventListner(event: "contextmenu", func: (args: UIEvent) => void): void;
-      static getViewport(): Viewport;
-      static getRenderer(): AbstractRenderer;
+      getViewport(): Viewport;
+      getRenderer(): AbstractRenderer;
    }
 
 }
@@ -378,6 +376,7 @@ declare module 'wglib/helpers/CssHelper' {
 }
 declare module 'wglib/helpers/DevTool' {
    import { Graphics } from "pixi.js";
+   import { WgLib } from "wglib/core/WgLib";
    export class DebugPoint {
       container: Graphics;
       constructor(x: number, y: number, color?: number);
@@ -388,8 +387,8 @@ declare module 'wglib/helpers/DevTool' {
    }
    export class DevTool {
       static readonly IsDebug = true;
-      static DrawDebugPoint(x: number, y: number, color?: number): void;
-      static DrawDebugBox(x: number, y: number, w: number, h: number, color?: number): void;
+      static DrawDebugPoint(x: number, y: number, color: number | undefined, wglib: WgLib): void;
+      static DrawDebugBox(x: number, y: number, w: number, h: number, color: number | undefined, wglib: WgLib): void;
    }
 
 }

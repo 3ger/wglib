@@ -2,7 +2,6 @@ import { ConnectorSocket } from "./ConnectorSocket";
 import GraphElement from "./GraphElement";
 import { InteractionInterface } from "./InteractionInterface";
 import { VisualLine } from "./VisualLine";
-import { WgLib } from "./WgLib";
 
 export class Connector extends GraphElement {
    private line: VisualLine;
@@ -11,13 +10,13 @@ export class Connector extends GraphElement {
       private start: ConnectorSocket,
       private end: ConnectorSocket,
       cssClass = "defaultConnector",
-      private interaction?: InteractionInterface
+      interaction?: InteractionInterface
    ) {
       super(cssClass, interaction);
       this.line = new VisualLine(cssClass);
       this.draw();
       this.addChild(this.line);
-      WgLib.getViewport().addChild(this);
+      start.getViewport().addChild(this);
       this.setupListners();
    }
 

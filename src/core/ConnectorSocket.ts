@@ -3,11 +3,8 @@ import Box from "./Box";
 import { Connector } from "./Connector";
 import { InteractionArgs, InteractionInterface } from "./InteractionInterface";
 import { VisualLine } from "./VisualLine";
-import { WgLib } from "./WgLib";
 
 export abstract class ConnectorSocket extends Box {
-   protected aaaa = "ConnectorStart";
-
    protected currentDragOut?: VisualLine | undefined;
    protected connectors: Array<Connector> = [];
    private elToFollow = new Container();
@@ -36,7 +33,7 @@ export abstract class ConnectorSocket extends Box {
       }
 
       if (this.currentDragOut) {
-         const interaction = WgLib.getRenderer().plugins.interaction as InteractionManager;
+         const interaction = this.currentDragOut.getViewport().options.interaction as InteractionManager;
          if (interaction) {
             const hitObject = interaction.hitTest(interaction.mouse.global);
             if (hitObject && hitObject instanceof ConnectorSocket) {
@@ -49,10 +46,11 @@ export abstract class ConnectorSocket extends Box {
 
    private removeDragOut() {
       if (this.currentDragOut) {
-         WgLib.getViewport().removeChild(this.currentDragOut);
+         const viewPort = this.currentDragOut.getViewport();
+         viewPort.removeChild(this.currentDragOut);
          this.currentDragOut = undefined;
-         WgLib.getViewport().removeListener("pointermove", this.dragging, this);
-         WgLib.getViewport().plugins.remove("follow");
+         viewPort.removeListener("pointermove", this.dragging, this);
+         viewPort.plugins.remove("follow");
       }
    }
 
@@ -61,12 +59,13 @@ export abstract class ConnectorSocket extends Box {
          this.interaction.onDragStart(e);
          if (e.shouldStopPropagation()) return;
       }
+      const viewPort = this.getViewport();
       this.currentDragOut = new VisualLine();
       this.drawConnectionLine(e.eventData?.global || this.getPosition());
-      WgLib.getViewport().addListener("pointermove", this.dragging, this);
-      const radi = 0.45 * Math.min(WgLib.getViewport().screenHeight, WgLib.getViewport().screenWidth);
-      WgLib.getViewport().follow(this.elToFollow, { acceleration: 2, radius: radi, speed: 20 });
-      WgLib.getViewport().addChild(this.currentDragOut);
+      viewPort.addListener("pointermove", this.dragging, this);
+      const radi = 0.45 * Math.min(viewPort.screenHeight, viewPort.screenWidth);
+      viewPort.follow(this.elToFollow, { acceleration: 2, radius: radi, speed: 20 });
+      viewPort.addChild(this.currentDragOut);
       e.stopPropagation();
    }
 
@@ -77,15 +76,15 @@ export abstract class ConnectorSocket extends Box {
          if (ev.shouldStopPropagation()) return;
       }
       this.drawConnectionLine(arg.data.global);
-      const toFollowPos = WgLib.getViewport().toWorld(arg.data.global);
-      this.elToFollow.x = toFollowPos.x;
-      this.elToFollow.y = toFollowPos.y;
+      const toFollowPos = this.getViewport().toWorld(arg.data.global);
+      this.elToFollow.x = toFollowPos?.x || arg.data.global.x;
+      this.elToFollow.y = toFollowPos?.y || arg.data.global.y;
    }
 
    protected drawConnectionLine(toPos: { x: number; y: number }): void {
       if (this.currentDragOut) {
          const start = this.getOutPosition();
-         const mousePos = WgLib.getViewport().toWorld(toPos.x, toPos.y);
+         const mousePos = this.getViewport().toWorld(toPos.x, toPos.y);
          this.currentDragOut.drawBezier3(start, mousePos, this.getOutOffset(), start.x > mousePos.x ? 100 : -100);
       }
    }

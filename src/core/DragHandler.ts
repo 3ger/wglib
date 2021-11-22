@@ -1,7 +1,6 @@
 import { InteractionEvent, InteractionData, DisplayObject } from "pixi.js";
 import GraphElement from "./GraphElement";
 import { InteractionArgs } from "./InteractionInterface";
-import { WgLib } from "./WgLib";
 
 export class DragHandler {
    private isDragging = false;
@@ -54,8 +53,9 @@ export class DragHandler {
       this.dragData = event;
       const tmpPos = event.data.getLocalPosition(this.element.parent);
       this.elementPointerOffset = { x: tmpPos.x - this.element.x, y: tmpPos.y - this.element.y };
-      const radi = 0.33 * Math.min(WgLib.getViewport().screenHeight, WgLib.getViewport().screenWidth);
-      WgLib.getViewport().follow(this.element, {
+      const viewPort = this.graphElement.getViewport();
+      const radi = 0.33 * Math.min(viewPort.screenHeight, viewPort.screenWidth);
+      viewPort.follow(this.element, {
          acceleration: 2,
          radius: radi,
          speed: 20,
@@ -68,7 +68,7 @@ export class DragHandler {
 
       if (ev.shouldStopPropagation()) return;
 
-      WgLib.getViewport().plugins.remove("follow");
+      this.graphElement.getViewport().plugins.remove("follow");
 
       this.isDragging = false;
       this.dragData = undefined;

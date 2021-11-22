@@ -64,11 +64,18 @@ export default abstract class GraphElement extends Container {
    }
 
    public getTopParent(): GraphElement {
+      if (this.parent instanceof Viewport)
+         return this;
+
       let curParent = this.parent;
-      while (!(curParent.parent instanceof Viewport)) {
+      while (curParent?.parent && !(curParent.parent instanceof Viewport)) {
          curParent = curParent.parent;
       }
       return curParent as GraphElement;
+   }
+
+   public getViewport(): Viewport {
+      return this.getTopParent().parent as Viewport;
    }
 
    public addDraggingCallback(fn: (data?: InteractionData) => void): void {

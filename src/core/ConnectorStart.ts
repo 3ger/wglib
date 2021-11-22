@@ -2,10 +2,8 @@ import { IPointData } from "pixi.js";
 import { Connector } from "./Connector";
 import { ConnectorEnd } from "./ConnectorEnd";
 import { ConnectorSocket } from "./ConnectorSocket";
-import { WgLib } from "./WgLib";
 
 export class ConnectorStart extends ConnectorSocket {
-   protected aaaa = "ConnectorStart";
 
    public getOutOffset(): number {
       return this.vis?.dragOutOffset || 100;
@@ -16,7 +14,7 @@ export class ConnectorStart extends ConnectorSocket {
    }
 
    public getOutPosition(): { x: number; y: number } {
-      const elPosWorld = WgLib.getViewport().toWorld(<IPointData>this.getGlobalPosition());
+      const elPosWorld = this.getViewport().toWorld(<IPointData>this.getGlobalPosition());
       return { x: elPosWorld.x + this.width, y: elPosWorld.y + this.height * 0.5 };
    }
 

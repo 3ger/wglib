@@ -30,11 +30,11 @@ export class DebugBox {
 export class DevTool {
    static readonly IsDebug = true;
 
-   static DrawDebugPoint(x: number, y: number, color = 0xff0000): void {
-      if (this.IsDebug) WgLib.getViewport().addChild(new DebugPoint(x, y, color).container);
+   static DrawDebugPoint(x: number, y: number, color = 0xff0000, wglib: WgLib): void {
+      if (this.IsDebug) wglib.getViewport().addChild(new DebugPoint(x, y, color).container);
    }
 
-   static DrawDebugBox(x: number, y: number, w: number, h: number, color = 0xff0000): void {
-      if (this.IsDebug) WgLib.getViewport().addChild(new DebugBox(x, y, w, h, color).container);
+   static DrawDebugBox(x: number, y: number, w: number, h: number, color = 0xff0000, wglib: WgLib): void {
+      if (this.IsDebug) wglib.getViewport().addChild(new DebugBox(x, y, w, h, color).container);
    }
 }
