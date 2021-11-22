@@ -33,7 +33,7 @@ export abstract class ConnectorSocket extends Box {
       }
 
       if (this.currentDragOut) {
-         const interaction = this.currentDragOut.getViewport().options.interaction as InteractionManager;
+         const interaction = this.getViewport().options.interaction as InteractionManager;
          if (interaction) {
             const hitObject = interaction.hitTest(interaction.mouse.global);
             if (hitObject && hitObject instanceof ConnectorSocket) {
@@ -46,7 +46,7 @@ export abstract class ConnectorSocket extends Box {
 
    private removeDragOut() {
       if (this.currentDragOut) {
-         const viewPort = this.currentDragOut.getViewport();
+         const viewPort = this.getViewport();
          viewPort.removeChild(this.currentDragOut);
          this.currentDragOut = undefined;
          viewPort.removeListener("pointermove", this.dragging, this);
