@@ -179,3 +179,29 @@ body {
    border-color: #827cd4;
    --border-draw-alignment: 0;
 }
+
+.defaultTextInput {
+   border-width: 1px;
+   border-color: #000000;
+   border-radius: 5px;
+   --border-draw-alignment: 0;
+   background-color: rgba(72, 101, 129, 1);
+   height: 50px;
+   width: 200px;
+   border-style: solid;
+   color: #000000;
+}
+
+.defaultTextInput title {
+   color: rgba(0, 255, 255, 0.555);
+   font-size: 32px;
+   text-align: center;
+   font-weight: 600;
+   top: 5px;
+   font-family: sans-serif;
+}
+
+.defaultTextInput:hover {
+   opacity: 2;
+   cursor: text;
+}

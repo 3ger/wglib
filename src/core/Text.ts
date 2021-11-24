@@ -2,7 +2,7 @@ import { CssCache, VisualProperties } from "../helpers/CssHelper";
 import { Text as pixiText } from "pixi.js";
 
 export default class Text extends pixiText {
-   private vis?: VisualProperties;
+   private vis!: VisualProperties;
 
    constructor(text: string, cssClass: string) {
       const textVis = CssCache.getVisualProperties(cssClass);
@@ -18,7 +18,7 @@ export default class Text extends pixiText {
       this.on("added", () => this.setupText(), this);
    }
 
-   setupText(): void {
+   private setupText(): void {
       this.position.set(this.vis?.left, this.vis?.top);
 
       if (this.vis?.textStyle?.align) {
@@ -40,5 +40,17 @@ export default class Text extends pixiText {
       if (this.vis?.colorAlpha && this.vis.colorAlpha < 1) {
          this.alpha = this.vis.colorAlpha;
       }
+
+      // this.width = this.parent.width;
+      // this.height = this.parent.height;
+   }
+
+   public getTextVis(): VisualProperties {
+      return this.vis;
+   }
+
+   public setText(text: string): void {
+      this.text = text;
+      this.setupText();
    }
 }

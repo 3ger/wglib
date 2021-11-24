@@ -1,11 +1,12 @@
 import GraphElement from "./GraphElement";
-import { InteractionInterface } from "./InteractionInterface";
+import { PointerInterface } from "./InteractionInterface";
 import Box from "./Box";
+import { ConnectorSocket } from "./ConnectorSocket";
 
 export default class BoxContainer extends GraphElement {
    private elements = new Array<Box>();
 
-   constructor(cssClass = "defaultBoxContainer", interaction?: InteractionInterface) {
+   constructor(cssClass = "defaultBoxContainer", interaction?: PointerInterface) {
       super(cssClass, interaction);
    }
 
@@ -22,8 +23,7 @@ export default class BoxContainer extends GraphElement {
          this.elements.push(box);
          box.setPosition(nextBoxPosition.x, nextBoxPosition.y);
       }
-
-      this.addChild(box.getContainer());
+      this.addChild(box);
       return this;
    }
 

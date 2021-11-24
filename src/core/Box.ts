@@ -1,9 +1,9 @@
 import { Graphics } from "pixi.js";
 import GraphElement from "./GraphElement";
-import { InteractionInterface } from "./InteractionInterface";
+import { PointerInterface } from "./InteractionInterface";
 
 export default class Box extends GraphElement {
-   constructor(cssClass = "defaultBox", interaction?: InteractionInterface, noDrawCall = false) {
+   constructor(cssClass = "defaultBox", interaction?: PointerInterface, noDrawCall = false) {
       super(cssClass, interaction);
 
       if (!noDrawCall) this.draw();

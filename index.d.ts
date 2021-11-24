@@ -1,19 +1,19 @@
 declare module 'wglib/core/Box' {
    import GraphElement from "wglib/core/GraphElement";
-   import { InteractionInterface } from "wglib/core/InteractionInterface";
+   import { PointerInterface } from "wglib/core/InteractionInterface";
    export default class Box extends GraphElement {
-      constructor(cssClass?: string, interaction?: InteractionInterface, noDrawCall?: boolean);
+      constructor(cssClass?: string, interaction?: PointerInterface, noDrawCall?: boolean);
       protected draw(): void;
    }
 
 }
 declare module 'wglib/core/BoxContainer' {
    import GraphElement from "wglib/core/GraphElement";
-   import { InteractionInterface } from "wglib/core/InteractionInterface";
+   import { PointerInterface } from "wglib/core/InteractionInterface";
    import Box from "wglib/core/Box";
    export default class BoxContainer extends GraphElement {
       private elements;
-      constructor(cssClass?: string, interaction?: InteractionInterface);
+      constructor(cssClass?: string, interaction?: PointerInterface);
       addBox(box: Box, asElement?: boolean): BoxContainer;
       private getNextBoxPosition;
    }
@@ -53,12 +53,12 @@ declare module 'wglib/core/BoxElement' {
 declare module 'wglib/core/Connector' {
    import { ConnectorSocket } from "wglib/core/ConnectorSocket";
    import GraphElement from "wglib/core/GraphElement";
-   import { InteractionInterface } from "wglib/core/InteractionInterface";
+   import { PointerInterface } from "wglib/core/InteractionInterface";
    export class Connector extends GraphElement {
       private start;
       private end;
       private line;
-      constructor(start: ConnectorSocket, end: ConnectorSocket, cssClass?: string, interaction?: InteractionInterface);
+      constructor(start: ConnectorSocket, end: ConnectorSocket, cssClass?: string, interaction?: PointerInterface);
       private setupListners;
       protected draw(): void;
    }
@@ -81,14 +81,14 @@ declare module 'wglib/core/ConnectorEnd' {
 declare module 'wglib/core/ConnectorSocket' {
    import Box from "wglib/core/Box";
    import { Connector } from "wglib/core/Connector";
-   import { InteractionInterface } from "wglib/core/InteractionInterface";
+   import { PointerInterface } from "wglib/core/InteractionInterface";
    import { VisualLine } from "wglib/core/VisualLine";
    export abstract class ConnectorSocket extends Box {
       private interaction?;
       protected currentDragOut?: VisualLine | undefined;
       protected connectors: Array<Connector>;
       private elToFollow;
-      constructor(cssClass: string, interaction?: InteractionInterface | undefined);
+      constructor(cssClass: string, interaction?: PointerInterface | undefined);
       private dragEnd;
       private removeDragOut;
       private dragStart;
@@ -144,17 +144,19 @@ declare module 'wglib/core/DragHandler' {
 
 }
 declare module 'wglib/core/GraphElement' {
-   import { Container, InteractionData } from "pixi.js";
+   import { AbstractRenderer, Container, InteractionData } from "pixi.js";
    import { InteractionManager } from "wglib/core/InteractionManager";
    import { InteractionState } from "wglib/core/InteractionState";
-   import { InteractionInterface } from "wglib/core/InteractionInterface";
+   import { PointerInterface } from "wglib/core/InteractionInterface";
    import { VisualProperties } from "wglib/helpers/CssHelper";
    import { Viewport } from "pixi-viewport";
+   import { WgLib } from "wglib/core/WgLib";
    export default abstract class GraphElement extends Container {
       protected cssClass: string;
       protected interactionManager?: InteractionManager;
       protected vis: VisualProperties;
-      constructor(cssClass: string, interaction?: InteractionInterface);
+      protected wglibParent: WgLib;
+      constructor(cssClass: string, interaction?: PointerInterface);
       private redraw;
       protected draw(): void;
       setVisualProperties(newVis: VisualProperties): void;
@@ -169,28 +171,37 @@ declare module 'wglib/core/GraphElement' {
       };
       getTopParent(): GraphElement;
       getViewport(): Viewport;
+      getRenderer(): AbstractRenderer;
       addDraggingCallback(fn: (data?: InteractionData) => void): void;
+      setWgLibParent(wglib: WgLib): void;
+      getVis(): VisualProperties;
+      isVisible(): boolean;
    }
 
 }
 declare module 'wglib/core/InteractionInterface' {
    import { InteractionData } from "pixi.js";
    import GraphElement from "wglib/core/GraphElement";
-   export interface InteractionInterface {
-      onPointerDown(args: InteractionArgs): void;
-      onPointerUp(args: InteractionArgs): void;
-      onPointerUpOutside(args: InteractionArgs): void;
-      onDragging(args: InteractionArgs): void;
-      onDragStart(args: InteractionArgs): void;
-      onDragEnd(args: InteractionArgs): void;
-      onPointerOver(args: InteractionArgs): void;
-      onPointerOut(args: InteractionArgs): void;
-      onPointerTap(args: InteractionArgs): void;
-      onRightClick(args: InteractionArgs): void;
-      onRightDown(args: InteractionArgs): void;
-      onRightUp(args: InteractionArgs): void;
+   export interface PointerInterface {
+      onPointerDown?: (args: InteractionArgs) => void;
+      onPointerUp?: (args: InteractionArgs) => void;
+      onPointerUpOutside?: (args: InteractionArgs) => void;
+      onDragging?: (args: InteractionArgs) => void;
+      onDragStart?: (args: InteractionArgs) => void;
+      onDragEnd?: (args: InteractionArgs) => void;
+      onPointerOver?: (args: InteractionArgs) => void;
+      onPointerOut?: (args: InteractionArgs) => void;
+      onPointerTap?: (args: InteractionArgs) => void;
+      onRightClick?: (args: InteractionArgs) => void;
+      onRightDown?: (args: InteractionArgs) => void;
+      onRightUp?: (args: InteractionArgs) => void;
       canDrag?: boolean | (() => boolean);
       preventPropagation?: boolean | (() => boolean);
+   }
+   export interface InputInterface extends PointerInterface {
+      onChange?: (ev: InputEvent) => void;
+      onInput?: (ev: InputEvent) => void;
+      onBlur?: (ev: FocusEvent) => void;
    }
    export class InteractionArgs {
       element: GraphElement;
@@ -205,7 +216,7 @@ declare module 'wglib/core/InteractionInterface' {
 declare module 'wglib/core/InteractionManager' {
    import GraphElement from "wglib/core/GraphElement";
    import { InteractionState } from "wglib/core/InteractionState";
-   import { InteractionInterface } from "wglib/core/InteractionInterface";
+   import { PointerInterface } from "wglib/core/InteractionInterface";
    import { InteractionData } from "pixi.js";
    export class InteractionManager {
       private parent;
@@ -215,7 +226,7 @@ declare module 'wglib/core/InteractionManager' {
       private hoverFilter;
       private clickFilter?;
       canDrag: boolean;
-      constructor(parent: GraphElement, interaction: InteractionInterface);
+      constructor(parent: GraphElement, interaction: PointerInterface);
       private shouldPreventPropagation;
       private handlePointerUp;
       private handlePointerUpOutside;
@@ -240,23 +251,56 @@ declare module 'wglib/core/InteractionState' {
 
 }
 declare module 'wglib/core/Text' {
+   import { VisualProperties } from "wglib/helpers/CssHelper";
    import { Text as pixiText } from "pixi.js";
    export default class Text extends pixiText {
-      private vis?;
+      private vis;
       constructor(text: string, cssClass: string);
-      setupText(): void;
+      private setupText;
+      getTextVis(): VisualProperties;
+      setText(text: string): void;
    }
 
 }
 declare module 'wglib/core/TextBox' {
-   import { InteractionInterface } from "wglib/core/InteractionInterface";
+   import { PointerInterface } from "wglib/core/InteractionInterface";
    import Box from "wglib/core/Box";
+   import { VisualProperties } from "wglib/helpers/CssHelper";
    export class TextBox extends Box {
       private text;
-      private textElement?;
-      constructor(text: string, cssClass?: string, interaction?: InteractionInterface);
+      private textElement;
+      constructor(text: string, cssClass?: string, interaction?: PointerInterface);
       private addText;
       getText(): string;
+      getTextVis(): VisualProperties;
+      showText(bShow: boolean): void;
+      setText(value: string): void;
+   }
+
+}
+declare module 'wglib/core/TextInput' {
+   import { InputInterface } from "wglib/core/InteractionInterface";
+   import GraphElement from "wglib/core/GraphElement";
+   import { WgLib } from "wglib/core/WgLib";
+   export class TextInput extends GraphElement {
+      private text;
+      private boxElement;
+      private outerInputInterface?;
+      private boxInterface;
+      private domElement;
+      private cachedGlobalX;
+      private cachedGlobalY;
+      private cachedTextSize;
+      constructor(text: string, cssClass?: string, interaction?: InputInterface);
+      private setupElements;
+      onInput(ev: InputEvent): any;
+      private setupVisuals;
+      private onChange;
+      private onBlur;
+      private onPointerDown;
+      getText(): string;
+      setWgLibParent(wglib: WgLib): void;
+      updateTransform(): void;
    }
 
 }
@@ -294,7 +338,7 @@ declare module 'wglib/core/VisualLine' {
 declare module 'wglib/core/WgLib' {
    import { Viewport } from "pixi-viewport";
    import { WgSettings } from "wglib/core/WgSettings";
-   import { InteractionInterface } from "wglib/core/InteractionInterface";
+   import { PointerInterface } from "wglib/core/InteractionInterface";
    import GraphElement from "wglib/core/GraphElement";
    import { AbstractRenderer } from "pixi.js";
    export class WgLib {
@@ -307,7 +351,7 @@ declare module 'wglib/core/WgLib' {
       constructor(config: WgSettings, onLoaded?: (() => void) | undefined, onContextMenu?: (args: UIEvent) => void);
       private initStage;
       private TEST_METHOD_TODO_REMOVE;
-      addTextBox(title: string, cssClass: string, interaction: InteractionInterface): WgLib;
+      addTextBox(title: string, cssClass: string, interaction: PointerInterface): WgLib;
       addElement(element: GraphElement, ...rest: GraphElement[]): WgLib;
       addEventListner(event: "contextmenu", func: (args: UIEvent) => void): void;
       getViewport(): Viewport;
@@ -345,6 +389,7 @@ declare module 'wglib/helpers/CssHelper' {
    export function hasAlpha(strRgba?: string): boolean;
    export function getAlpha(strRgba?: string): number;
    export function rgbToHex(strRgb: string): string;
+   export function numberToRGB(num: number, alpha?: number): string;
    export class VisualProperties {
       readonly textStyle?: TextStyle;
       readonly backgroundColor?: number;
@@ -421,7 +466,7 @@ declare module 'wglib/index' {
    export { ConnectorEnd } from "wglib/core/ConnectorEnd";
    export { TextBoxElement } from "wglib/core/BoxElement";
    export type { WgSettings } from "wglib/core/WgSettings";
-   export type { InteractionInterface } from "wglib/core/InteractionInterface";
+   export type { PointerInterface, InputInterface } from "wglib/core/InteractionInterface";
    export { InteractionState } from "wglib/core/InteractionState";
    export { TextBox } from "wglib/core/TextBox";
 

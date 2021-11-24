@@ -1,7 +1,7 @@
 import { Container, InteractionEvent, InteractionManager } from "pixi.js";
 import Box from "./Box";
 import { Connector } from "./Connector";
-import { InteractionArgs, InteractionInterface } from "./InteractionInterface";
+import { InteractionArgs, PointerInterface } from "./InteractionInterface";
 import { VisualLine } from "./VisualLine";
 
 export abstract class ConnectorSocket extends Box {
@@ -9,8 +9,8 @@ export abstract class ConnectorSocket extends Box {
    protected connectors: Array<Connector> = [];
    private elToFollow = new Container();
 
-   constructor(cssClass: string, private interaction?: InteractionInterface) {
-      super(cssClass, <InteractionInterface>{
+   constructor(cssClass: string, private interaction?: PointerInterface) {
+      super(cssClass, <PointerInterface>{
          canDrag: false,
          preventPropagation: false,
          onPointerDown: (e) => this.dragStart(e),
@@ -72,7 +72,7 @@ export abstract class ConnectorSocket extends Box {
    private dragging(arg: InteractionEvent) {
       if (this.interaction && this.interaction.canDrag && this.interaction.onDragging) {
          const ev = new InteractionArgs(this, arg.data);
-         this.interaction.onDragEnd(ev);
+         if (this.interaction.onDragEnd) this.interaction.onDragEnd(ev);
          if (ev.shouldStopPropagation()) return;
       }
       this.drawConnectionLine(arg.data.global);

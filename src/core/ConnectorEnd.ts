@@ -25,6 +25,7 @@ export class ConnectorEnd extends ConnectorSocket {
    ): Connector | undefined {
       if (hitObject.canConnectTo(this)) {
          const con = connector || new Connector(hitObject, this, connectorClass);
+         con.setWgLibParent(this.wglibParent);
          this.connectors.push(con);
          return con;
       }

@@ -1,6 +1,6 @@
 import { ConnectorSocket } from "./ConnectorSocket";
 import GraphElement from "./GraphElement";
-import { InteractionInterface } from "./InteractionInterface";
+import { PointerInterface } from "./InteractionInterface";
 import { VisualLine } from "./VisualLine";
 
 export class Connector extends GraphElement {
@@ -10,13 +10,13 @@ export class Connector extends GraphElement {
       private start: ConnectorSocket,
       private end: ConnectorSocket,
       cssClass = "defaultConnector",
-      interaction?: InteractionInterface
+      interaction?: PointerInterface
    ) {
       super(cssClass, interaction);
       this.line = new VisualLine(cssClass);
-      this.draw();
       this.addChild(this.line);
       start.getViewport().addChild(this);
+      this.draw();
       this.setupListners();
    }
 

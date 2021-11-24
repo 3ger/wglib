@@ -2,7 +2,7 @@ import { CssCache } from "../helpers/CssHelper";
 import { DragHandler } from "./DragHandler";
 import GraphElement from "./GraphElement";
 import { InteractionState } from "./InteractionState";
-import { InteractionArgs, InteractionInterface } from "./InteractionInterface";
+import { InteractionArgs, PointerInterface } from "./InteractionInterface";
 import { Filter, filters, InteractionData, InteractionEvent } from "pixi.js";
 
 export class InteractionManager {
@@ -12,7 +12,7 @@ export class InteractionManager {
    private clickFilter?: Filter;
    public canDrag: boolean;
 
-   constructor(private parent: GraphElement, private interaction: InteractionInterface) {
+   constructor(private parent: GraphElement, private interaction: PointerInterface) {
       const container = this.parent.getContainer();
       container.interactive = true;
 
@@ -37,9 +37,9 @@ export class InteractionManager {
          );
 
          if (this.interaction.onDragging)
-            this.dragHandler.onDragged((data?: InteractionData) =>
-               this.interaction.onDragging(new InteractionArgs(this.parent, data))
-            );
+            this.dragHandler.onDragged((data?: InteractionData) => {
+               if (this.interaction.onDragging) this.interaction.onDragging(new InteractionArgs(this.parent, data))
+            });
       } else {
          // NOTICE: Need DOWN and UP events if any click event is handled (handels visuals too)
          if (this.hasClickEvent()) {
@@ -66,18 +66,28 @@ export class InteractionManager {
       if (this.interaction.onPointerTap) {
          container.on("pointertap", (e: InteractionEvent) => {
             const ev = new InteractionArgs(this.parent);
-            this.interaction.onPointerTap(ev);
+
+            if (this.interaction.onPointerTap)
+               this.interaction.onPointerTap(ev);
 
             if (this.shouldPreventPropagation() || ev.shouldStopPropagation()) e.stopPropagation();
          });
       }
 
       if (this.interaction.onRightClick)
-         container.on("rightclick", () => this.interaction.onRightClick(new InteractionArgs(this.parent)));
+         container.on("rightclick", () => {
+            if (this.interaction.onRightClick)
+               this.interaction.onRightClick(new InteractionArgs(this.parent))
+         });
       if (this.interaction.onRightDown)
-         container.on("rightdown", () => this.interaction.onRightDown(new InteractionArgs(this.parent)));
+         container.on("rightdown", () => {
+            if (this.interaction.onRightDown)
+               this.interaction.onRightDown(new InteractionArgs(this.parent))
+         });
       if (this.interaction.onRightUp)
-         container.on("rightup", () => this.interaction.onRightUp(new InteractionArgs(this.parent)));
+         container.on("rightup", () => {
+            if (this.interaction.onRightUp) this.interaction.onRightUp(new InteractionArgs(this.parent))
+         });
 
       container.on("pointerover", (e: InteractionEvent) => {
 
@@ -175,9 +185,9 @@ export class InteractionManager {
          if (e.shouldStopPropagation()) return;
       }
 
-      if (this.interaction.onPointerDown) {
-         this.interaction.onPointerDown(e);
-      }
+      // if (this.interaction.onPointerDown) {
+      //    this.interaction.onPointerDown(e);
+      // }
 
       this.interactionState = InteractionState.Dragged;
       this.handlePointerDown(e);

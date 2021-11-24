@@ -1,15 +1,17 @@
-import { Container, InteractionData } from "pixi.js";
+import { AbstractRenderer, Container, DisplayObject, InteractionData } from "pixi.js";
 import { InteractionManager } from "./InteractionManager";
 import { InteractionState } from "./InteractionState";
-import { InteractionInterface } from "./InteractionInterface";
+import { PointerInterface } from "./InteractionInterface";
 import { CssCache, VisualProperties } from "../helpers/CssHelper";
 import { Viewport } from "pixi-viewport";
+import { WgLib } from "./WgLib";
 
 export default abstract class GraphElement extends Container {
    protected interactionManager?: InteractionManager;
    protected vis: VisualProperties;
+   protected wglibParent!: WgLib;
 
-   constructor(protected cssClass: string, interaction?: InteractionInterface) {
+   constructor(protected cssClass: string, interaction?: PointerInterface) {
       super();
       this.filters = [];
       this.vis = CssCache.getVisualProperties(cssClass);
@@ -17,6 +19,10 @@ export default abstract class GraphElement extends Container {
          this.interactionManager = new InteractionManager(this, interaction);
       }
       this.setPosition(this.vis?.left || 0, this.vis?.top || 0);
+      this.on("childAdded", (child: DisplayObject) => {
+         if (child instanceof GraphElement)
+            (child as GraphElement).setWgLibParent(this.wglibParent);
+      });
    }
 
    private redraw(): void {
@@ -75,10 +81,39 @@ export default abstract class GraphElement extends Container {
    }
 
    public getViewport(): Viewport {
-      return this.getTopParent().parent as Viewport;
+      return this.wglibParent.getViewport();
+   }
+
+   public getRenderer(): AbstractRenderer {
+      return this.wglibParent.getRenderer();
    }
 
    public addDraggingCallback(fn: (data?: InteractionData) => void): void {
       if (this.interactionManager) this.interactionManager.addDraggingCallback(fn);
+   }
+
+   public setWgLibParent(wglib: WgLib) {
+      this.wglibParent = wglib;
+   }
+
+   public getVis(): VisualProperties {
+      return this.vis;
+   };
+
+   public isVisible(): boolean {
+      const vP = this.getViewport();
+      let tmp = this.getBounds(true);
+
+      // half point here: -> assume "visible" if still half to see
+      const p1 = vP.toWorld({ x: tmp.left + (tmp.right - tmp.left) * 0.5, y: tmp.top + (tmp.bottom - tmp.top) * 0.5 });
+      const p2 = vP.toWorld({ x: tmp.right - (tmp.right - tmp.left) * 0.5, y: tmp.bottom - (tmp.bottom - tmp.top) * 0.5 });
+
+      const a = { left: p1.x, top: p1.y, right: p2.x, bottom: p2.y };
+      const b = this.getViewport().getVisibleBounds();
+
+      return (a.left <= b.right &&
+         b.left <= a.right &&
+         a.top <= b.bottom &&
+         b.top <= a.bottom);
    }
 }

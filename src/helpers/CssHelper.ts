@@ -90,6 +90,14 @@ export function rgbToHex(strRgb: string): string {
    );
 }
 
+export function numberToRGB(num: number, alpha?: number) {
+   const rgb = num.toString(16).padStart(6, "0");
+   const r = parseInt(rgb.substr(0, 2), 16);
+   const g = parseInt(rgb.substr(2, 2), 16);
+   const b = parseInt(rgb.substr(4, 2), 16);
+   return alpha ? `rgba(${r}, ${g}, ${b}, ${alpha})` : `rgb(${r}, ${g}, ${b})`;
+}
+
 export class VisualProperties {
    // TODO: support more text style, rework to better update with pixi
    // text properties -- TAKEN DIRECTLY FROM PIXI TEXTSTYLE

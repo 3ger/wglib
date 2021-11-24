@@ -2,13 +2,13 @@ import { Viewport } from "pixi-viewport";
 import { WgSettings } from "./WgSettings";
 import { TextBox } from "./TextBox";
 import BoxContainer from "./BoxContainer";
-import { InteractionInterface } from "./InteractionInterface";
+import { PointerInterface, InputInterface } from "./InteractionInterface";
 import GraphElement from "./GraphElement";
 import { CssCache } from "../helpers/CssHelper";
 import { ConnectorStart } from "./ConnectorStart";
 import { ConnectorEnd } from "./ConnectorEnd";
 import { AbstractRenderer, Application, utils } from "pixi.js";
-
+import { TextInput } from "./TextInput";
 
 export class WgLib {
    private pixiApp: Application;
@@ -86,7 +86,7 @@ export class WgLib {
    // TODO: remove
    private TEST_METHOD_TODO_REMOVE() {
       const testComponent = new TextBox("WgLib (testBox)", "testBox");
-      const testComponent2 = new TextBox("defaultBox", undefined, <InteractionInterface>{
+      const testComponent2 = new TextBox("defaultBox", undefined, <PointerInterface>{
          onPointerDown: (el) => {
             console.log(el);
          },
@@ -109,7 +109,7 @@ export class WgLib {
             console.log("Out element: " + (el.element as TextBox).getText());
          },
       });
-      const testComponent3 = new TextBox("testBox2", "testBox2", <InteractionInterface>{
+      const testComponent3 = new TextBox("testBox2", "testBox2", <PointerInterface>{
          onPointerDown: (el) => {
             console.log(el);
          },
@@ -136,7 +136,7 @@ export class WgLib {
       });
       this.addElement(testComponent, testComponent2, testComponent3);
 
-      const bxContainer = new BoxContainer("defaultBoxContainer", <InteractionInterface>{
+      const bxContainer = new BoxContainer("defaultBoxContainer", <PointerInterface>{
          // onPointerDown: (el) => {
          //    console.log(el);
          // },
@@ -159,13 +159,14 @@ export class WgLib {
          //    console.log("Out element: " + (el as BoxContainer));
          // },
       });
+      this.addElement(bxContainer);
       bxContainer
          .addBox(new TextBox("containerBox", "containerBox"), false)
          .addBox(new TextBox("defaultBox1", "defaultBox"))
          .addBox(new TextBox("defaultBox2", "defaultBox"))
          .addBox(new TextBox("defaultBox3", "defaultBox"))
          .addBox(
-            new TextBox("btnTest", "testBox2", <InteractionInterface>{
+            new TextBox("btnTest", "testBox2", <PointerInterface>{
                // eslint-disable-next-line @typescript-eslint/no-unused-vars
                onPointerTap: (el) => {
                   //console.log("clicked on element: " + (el.element as TextBox).getText());
@@ -182,21 +183,31 @@ export class WgLib {
       const conEnd = new ConnectorEnd("defaultConnectionEndBox");
       testComponent2.getContainer().addChild(conEnd.getContainer());
 
-      this.addElement(bxContainer);
+      // this.addElement(bxContainer);
+
+      let ti = new TextInput("TextInput", "defaultTextInput", <InputInterface>{
+         onChange: (ev: InputEvent) => {
+            console.log(ev);
+         }
+      });
+      ti.setPosition(500, 200);
+      this.addElement(ti);
    }
 
-   public addTextBox(title: string, cssClass: string, interaction: InteractionInterface): WgLib {
+   public addTextBox(title: string, cssClass: string, interaction: PointerInterface): WgLib {
       return this.addElement(new TextBox(title, cssClass, interaction));
    }
 
    public addElement(element: GraphElement, ...rest: GraphElement[]): WgLib {
       this.elements.push(element);
-      this.getViewport()?.addChild(element.getContainer());
+      this.getViewport().addChild(element.getContainer());
+      element.setWgLibParent(this);
 
       if (rest) {
          rest.forEach((el) => {
             this.elements.push(el);
-            this.getViewport()?.addChild(el.getContainer());
+            this.getViewport().addChild(el.getContainer());
+            el.setWgLibParent(this);
          });
       }
       return this;
