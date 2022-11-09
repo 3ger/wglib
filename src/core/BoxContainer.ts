@@ -1,9 +1,8 @@
 import GraphElement from "./GraphElement";
 import { PointerInterface } from "./InteractionInterface";
 import Box from "./Box";
-import { ConnectorSocket } from "./ConnectorSocket";
 
-export default class BoxContainer extends GraphElement {
+export class BoxContainer extends GraphElement {
    private elements = new Array<Box>();
 
    constructor(cssClass = "defaultBoxContainer", interaction?: PointerInterface) {

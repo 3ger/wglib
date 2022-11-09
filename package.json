@@ -35,8 +35,8 @@
    },
    "homepage": "https://github.com/eg3r/wglib#readme",
    "peerDependencies": {
-      "pixi-viewport": "^4.34.0",
-      "pixi.js": "^6.2.0"
+      "pixi-viewport": "^4.37.0",
+      "pixi.js": "^6.5.8"
    },
    "devDependencies": {
       "@pixi-build-tools/rollup-configurator": "^1.0.14",

@@ -10,3 +10,5 @@ export type { WgSettings } from "./core/WgSettings";
 export type { PointerInterface, InputInterface } from "./core/InteractionInterface";
 export { InteractionState } from "./core/InteractionState";
 export { TextBox } from "./core/TextBox";
+export { TextInput } from "./core/TextInput";
+export { BoxContainer } from "./core/BoxContainer";

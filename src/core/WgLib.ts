@@ -1,7 +1,7 @@
 import { Viewport } from "pixi-viewport";
 import { WgSettings } from "./WgSettings";
 import { TextBox } from "./TextBox";
-import BoxContainer from "./BoxContainer";
+import { BoxContainer } from "./BoxContainer";
 import { PointerInterface, InputInterface } from "./InteractionInterface";
 import GraphElement from "./GraphElement";
 import { CssCache } from "../helpers/CssHelper";
@@ -78,120 +78,6 @@ export class WgLib {
          .decelerate();
 
       if (typeof this.onLoaded === "function") this.onLoaded();
-
-      // TODO: remove
-      this.TEST_METHOD_TODO_REMOVE();
-   }
-
-   // TODO: remove
-   private TEST_METHOD_TODO_REMOVE() {
-      const testComponent = new TextBox("WgLib (testBox)", "testBox");
-      const testComponent2 = new TextBox("defaultBox", undefined, <PointerInterface>{
-         onPointerDown: (el) => {
-            console.log(el);
-         },
-         onPointerUp: (el) => {
-            console.log(el);
-         },
-         // onDragging: (el) => {
-         //    console.log("dragging el: " + (el as Box).getTitle());
-         // },
-         onPointerTap: (el) => {
-            console.log("clicked on element: " + (el.element as TextBox).getText());
-         },
-         onRightClick: (el) => {
-            console.log("right clicked on element: " + (el.element as TextBox).getText());
-         },
-         onPointerOver: (el) => {
-            console.log("Over element: " + (el.element as TextBox).getText());
-         },
-         onPointerOut: (el) => {
-            console.log("Out element: " + (el.element as TextBox).getText());
-         },
-      });
-      const testComponent3 = new TextBox("testBox2", "testBox2", <PointerInterface>{
-         onPointerDown: (el) => {
-            console.log(el);
-         },
-         // onPointerUp: (el) => {
-         //    console.log(el);
-         // },
-         // onDragging: (el) => {
-         //    console.log("dragging el: " + (el as Box).getTitle());
-         // },
-         // onPointerTap: (el) => {
-         //    console.log("clicked on element: " + (el as Box).getTitle());
-         // },
-         // onRightClick: (el) => {
-         //    console.log("right clicked on element: " + (el as Box).getTitle());
-         // },
-         // onPointerOver: (el) => {
-         //    console.log("Over element: " + (el as Box).getTitle());
-         // },
-         // onPointerOut: (el) => {
-         //    console.log("Out element: " + (el as Box).getTitle());
-         // },
-         canDrag: false,
-         preventPropagation: true,
-      });
-      this.addElement(testComponent, testComponent2, testComponent3);
-
-      const bxContainer = new BoxContainer("defaultBoxContainer", <PointerInterface>{
-         // onPointerDown: (el) => {
-         //    console.log(el);
-         // },
-         // onPointerUp: (el) => {
-         //    console.log(el);
-         // },
-         // onDragging: (el) => {
-         //    console.log("dragging");
-         // },
-         // onPointerTap: (el) => {
-         //    console.log("clicked on element: " + (el as BoxContainer));
-         // },
-         // onRightClick: (el) => {
-         //    console.log("right clicked on element: " + (el as BoxContainer));
-         // },
-         // onPointerOver: (el) => {
-         //    console.log("Over element: " + (el as BoxContainer));
-         // },
-         // onPointerOut: (el) => {
-         //    console.log("Out element: " + (el as BoxContainer));
-         // },
-      });
-      this.addElement(bxContainer);
-      bxContainer
-         .addBox(new TextBox("containerBox", "containerBox"), false)
-         .addBox(new TextBox("defaultBox1", "defaultBox"))
-         .addBox(new TextBox("defaultBox2", "defaultBox"))
-         .addBox(new TextBox("defaultBox3", "defaultBox"))
-         .addBox(
-            new TextBox("btnTest", "testBox2", <PointerInterface>{
-               // eslint-disable-next-line @typescript-eslint/no-unused-vars
-               onPointerTap: (el) => {
-                  //console.log("clicked on element: " + (el.element as TextBox).getText());
-               },
-               canDrag: false,
-               preventPropagation: true,
-            })
-         );
-      bxContainer.setPosition(450, 450);
-
-      const conStart = new ConnectorStart("defaultConnectionStartBox");
-      bxContainer.getContainer().addChild(conStart.getContainer());
-
-      const conEnd = new ConnectorEnd("defaultConnectionEndBox");
-      testComponent2.getContainer().addChild(conEnd.getContainer());
-
-      // this.addElement(bxContainer);
-
-      let ti = new TextInput("TextInput", "defaultTextInput", <InputInterface>{
-         onChange: (ev: InputEvent) => {
-            console.log(ev);
-         }
-      });
-      ti.setPosition(500, 200);
-      this.addElement(ti);
    }
 
    public addTextBox(title: string, cssClass: string, interaction: PointerInterface): WgLib {
