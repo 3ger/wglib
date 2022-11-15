@@ -116,4 +116,9 @@ export class WgLib {
    public getRenderer(): AbstractRenderer {
       return this.pixiApp.renderer;
    }
+
+   public destroy(): void {
+      this.viewPort.destroy();
+      this.pixiApp.destroy(); 
+   }
 }
