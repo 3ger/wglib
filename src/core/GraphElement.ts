@@ -65,7 +65,7 @@ export default abstract class GraphElement extends Container {
       return this.height;
    }
 
-   public getPosition(): { x: number; y: number } {
+   public getPosition(): { x: number; y: number; } {
       return this.position;
    }
 
@@ -81,7 +81,12 @@ export default abstract class GraphElement extends Container {
    }
 
    public getViewport(): Viewport {
-      return this.wglibParent.getViewport();
+      const vP = this.wglibParent.getViewport();
+
+      if (vP === undefined)
+         throw ("Viewport is not set.");
+
+      return vP;
    }
 
    public getRenderer(): AbstractRenderer {

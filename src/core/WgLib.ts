@@ -1,18 +1,14 @@
 import { Viewport } from "pixi-viewport";
 import { WgSettings } from "./WgSettings";
 import { TextBox } from "./TextBox";
-import { BoxContainer } from "./BoxContainer";
-import { PointerInterface, InputInterface } from "./InteractionInterface";
+import { PointerInterface } from "./InteractionInterface";
 import GraphElement from "./GraphElement";
 import { CssCache } from "../helpers/CssHelper";
-import { ConnectorStart } from "./ConnectorStart";
-import { ConnectorEnd } from "./ConnectorEnd";
 import { AbstractRenderer, Application, utils } from "pixi.js";
-import { TextInput } from "./TextInput";
 
 export class WgLib {
    private pixiApp: Application;
-   private viewPort!: Viewport;
+   private viewPort?: Viewport;
    private elements: Array<GraphElement> = [];
    private onContextMenuCallbacks: Array<(args: UIEvent) => void> = [];
 
@@ -85,14 +81,20 @@ export class WgLib {
    }
 
    public addElement(element: GraphElement, ...rest: GraphElement[]): WgLib {
+
+      const vP = this.getViewport();
+      if (vP === undefined) {
+         throw ("Viewport is not set.");
+      }
+
       this.elements.push(element);
-      this.getViewport().addChild(element.getContainer());
+      vP.addChild(element.getContainer());
       element.setWgLibParent(this);
 
       if (rest) {
          rest.forEach((el) => {
             this.elements.push(el);
-            this.getViewport().addChild(el.getContainer());
+            vP.addChild(el.getContainer());
             el.setWgLibParent(this);
          });
       }
@@ -109,7 +111,7 @@ export class WgLib {
       }
    }
 
-   public getViewport(): Viewport {
+   public getViewport(): Viewport | undefined {
       return this.viewPort;
    }
 
@@ -118,7 +120,7 @@ export class WgLib {
    }
 
    public destroy(): void {
-      this.viewPort.destroy();
-      this.pixiApp.destroy(); 
+      this.viewPort?.destroy();
+      this.pixiApp?.destroy();
    }
 }

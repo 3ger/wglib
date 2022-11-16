@@ -345,7 +345,7 @@ declare module 'wglib/core/WgLib' {
       private config;
       private onLoaded?;
       private pixiApp;
-      private viewPort;
+      private viewPort?;
       private elements;
       private onContextMenuCallbacks;
       constructor(config: WgSettings, onLoaded?: (() => void) | undefined, onContextMenu?: (args: UIEvent) => void);
@@ -353,7 +353,7 @@ declare module 'wglib/core/WgLib' {
       addTextBox(title: string, cssClass: string, interaction: PointerInterface): WgLib;
       addElement(element: GraphElement, ...rest: GraphElement[]): WgLib;
       addEventListner(event: "contextmenu", func: (args: UIEvent) => void): void;
-      getViewport(): Viewport;
+      getViewport(): Viewport | undefined;
       getRenderer(): AbstractRenderer;
       destroy(): void;
   }
