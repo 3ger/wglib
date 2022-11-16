@@ -348,6 +348,7 @@ declare module 'wglib/core/WgLib' {
       private viewPort?;
       private elements;
       private onContextMenuCallbacks;
+      private isDestroyed;
       constructor(config: WgSettings, onLoaded?: (() => void) | undefined, onContextMenu?: (args: UIEvent) => void);
       private initStage;
       addTextBox(title: string, cssClass: string, interaction: PointerInterface): WgLib;
@@ -356,6 +357,7 @@ declare module 'wglib/core/WgLib' {
       getViewport(): Viewport | undefined;
       getRenderer(): AbstractRenderer;
       destroy(): void;
+      getIsDestroyed(): boolean;
   }
 
 }
@@ -474,6 +476,6 @@ declare module 'wglib/index' {
 
 }
 declare module 'wglib' {
-  import main = require('wglib/index');
+  import main = require('wglib/src/index');
   export = main;
 }

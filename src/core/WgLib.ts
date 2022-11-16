@@ -11,6 +11,7 @@ export class WgLib {
    private viewPort?: Viewport;
    private elements: Array<GraphElement> = [];
    private onContextMenuCallbacks: Array<(args: UIEvent) => void> = [];
+   private isDestroyed = false;
 
    constructor(private config: WgSettings, private onLoaded?: () => void, onContextMenu?: (args: UIEvent) => void) {
       config = config || <WgSettings>{};
@@ -42,6 +43,9 @@ export class WgLib {
       };
 
       CssCache.init(config.CssFile, () => {
+         if (this.isDestroyed)
+            return;
+
          this.initStage(config);
       });
    }
@@ -120,7 +124,12 @@ export class WgLib {
    }
 
    public destroy(): void {
+      this.isDestroyed = true;
       this.viewPort?.destroy();
       this.pixiApp?.destroy();
+   }
+
+   public getIsDestroyed(): boolean {
+      return this.isDestroyed;
    }
 }
