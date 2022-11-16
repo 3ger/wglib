@@ -127,6 +127,7 @@ export class WgLib {
       this.isDestroyed = true;
       this.viewPort?.destroy();
       this.pixiApp?.destroy();
+      CssCache.reset();
    }
 
    public getIsDestroyed(): boolean {

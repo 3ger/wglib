@@ -4,7 +4,7 @@ import { Loader, LoadEventArgs } from "./Loader";
 export class CssCache {
    private static IsInit: boolean;
    private static cssCache?: CSSRuleList;
-   private static parsedCssCache: { [id: string]: VisualProperties } = {};
+   private static parsedCssCache: { [id: string]: VisualProperties; } = {};
 
    public static getVisualProperties(cssClass: string): VisualProperties {
       if (!CssCache.IsInit) throw new Error("Using CssCache while it is not initialized. Call Init first");
@@ -41,6 +41,12 @@ export class CssCache {
       });
 
       await resLoader.startLoad();
+   }
+
+   public static reset(): void {
+      CssCache.IsInit = false;
+      CssCache.cssCache = undefined;
+      CssCache.parsedCssCache = {};
    }
 
    private static getCssRuleFor(name: string): CSSStyleRule | undefined {

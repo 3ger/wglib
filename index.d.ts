@@ -385,6 +385,7 @@ declare module 'wglib/helpers/CssHelper' {
       private static parsedCssCache;
       static getVisualProperties(cssClass: string): VisualProperties;
       static init(cssFile?: string, onCompleteCallback?: () => void): Promise<void>;
+      static reset(): void;
       private static getCssRuleFor;
       private static getCssRules;
   }
