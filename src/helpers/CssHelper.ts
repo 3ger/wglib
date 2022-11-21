@@ -22,7 +22,13 @@ export class CssCache {
    }
 
    public static async init(cssFile = "wglib.css", onCompleteCallback?: () => void): Promise<void> {
-      if (CssCache.IsInit) return;
+      // sometimes another instance already started the load, 
+      // make sure it still gets complete callback
+      if (CssCache.IsInit && onCompleteCallback)
+         onCompleteCallback();
+
+      if (CssCache.IsInit) 
+         return;
 
       this.IsInit = true;
 
