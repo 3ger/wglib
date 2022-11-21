@@ -477,6 +477,6 @@ declare module 'wglib/index' {
 
 }
 declare module 'wglib' {
-  import main = require('wglib/src/index');
+  import main = require('wglib/index');
   export = main;
 }

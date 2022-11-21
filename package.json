@@ -1,6 +1,6 @@
 {
    "name": "wglib",
-   "version": "1.1.6",
+   "version": "1.1.7",
    "description": "A library to draw simple interactive graphs - including css styling - based on Pixi.js.",
    "main": "dist/cjs/wglib.js",
    "module": "dist/esm/wglib.es.js",
