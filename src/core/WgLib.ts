@@ -26,6 +26,9 @@ export class WgLib {
          view: config.CanvasElement,
       });
 
+      if (config.CanvasElement && config.ResizeToCanvas === true)
+         this.pixiApp.resizeTo = config.CanvasElement;
+
       if (config.CanvasElement === undefined) document.body.appendChild(this.pixiApp.view);
 
       if (onContextMenu) this.onContextMenuCallbacks.push(onContextMenu);

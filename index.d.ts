@@ -374,6 +374,7 @@ declare module 'wglib/core/WgSettings' {
           y: number;
       };
       BackgroundColor: number;
+      ResizeToCanvas?: boolean;
   }
 
 }
