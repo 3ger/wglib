@@ -38,7 +38,8 @@ export class InteractionManager {
 
          if (this.interaction.onDragging)
             this.dragHandler.onDragged((data?: InteractionData) => {
-               if (this.interaction.onDragging) this.interaction.onDragging(new InteractionArgs(this.parent, data))
+               if (this.interaction.onDragging)
+                  this.interaction.onDragging(new InteractionArgs(this.parent, data));
             });
       } else {
          // NOTICE: Need DOWN and UP events if any click event is handled (handels visuals too)
@@ -75,18 +76,28 @@ export class InteractionManager {
       }
 
       if (this.interaction.onRightClick)
-         container.on("rightclick", () => {
-            if (this.interaction.onRightClick)
-               this.interaction.onRightClick(new InteractionArgs(this.parent))
+         container.on("rightclick", (e: InteractionEvent) => {
+            if (this.interaction.onRightClick) {
+               const ev = new InteractionArgs(this.parent, e.data);
+               this.interaction.onRightClick(ev);
+               if (ev.shouldStopPropagation()) e.stopPropagation();
+            }
          });
       if (this.interaction.onRightDown)
-         container.on("rightdown", () => {
-            if (this.interaction.onRightDown)
-               this.interaction.onRightDown(new InteractionArgs(this.parent))
+         container.on("rightdown", (e: InteractionEvent) => {
+            if (this.interaction.onRightDown) {
+               const ev = new InteractionArgs(this.parent, e.data);
+               this.interaction.onRightDown(ev);
+               if (ev.shouldStopPropagation()) e.stopPropagation();
+            }
          });
       if (this.interaction.onRightUp)
-         container.on("rightup", () => {
-            if (this.interaction.onRightUp) this.interaction.onRightUp(new InteractionArgs(this.parent))
+         container.on("rightup", (e: InteractionEvent) => {
+            if (this.interaction.onRightUp) {
+               const ev = new InteractionArgs(this.parent, e.data);
+               this.interaction.onRightUp(ev);
+               if (ev.shouldStopPropagation()) e.stopPropagation();
+            }
          });
 
       container.on("pointerover", (e: InteractionEvent) => {

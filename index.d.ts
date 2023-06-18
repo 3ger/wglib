@@ -180,8 +180,7 @@ declare module 'wglib/core/GraphElement' {
 
 }
 declare module 'wglib/core/InteractionInterface' {
-  import { InteractionData } from "pixi.js";
-  import GraphElement from "wglib/core/GraphElement";
+  import { DisplayObject, InteractionData } from "pixi.js";
   export interface PointerInterface {
       onPointerDown?: (args: InteractionArgs) => void;
       onPointerUp?: (args: InteractionArgs) => void;
@@ -204,10 +203,10 @@ declare module 'wglib/core/InteractionInterface' {
       onBlur?: (ev: FocusEvent) => void;
   }
   export class InteractionArgs {
-      element: GraphElement;
+      element: DisplayObject;
       eventData?: InteractionData | undefined;
       private stop;
-      constructor(element: GraphElement, eventData?: InteractionData | undefined);
+      constructor(element: DisplayObject, eventData?: InteractionData | undefined);
       stopPropagation(): void;
       shouldStopPropagation(): boolean;
   }
@@ -338,7 +337,7 @@ declare module 'wglib/core/VisualLine' {
 declare module 'wglib/core/WgLib' {
   import { Viewport } from "pixi-viewport";
   import { WgSettings } from "wglib/core/WgSettings";
-  import { PointerInterface } from "wglib/core/InteractionInterface";
+  import { InteractionArgs, PointerInterface } from "wglib/core/InteractionInterface";
   import GraphElement from "wglib/core/GraphElement";
   import { AbstractRenderer } from "pixi.js";
   export class WgLib {
@@ -349,11 +348,12 @@ declare module 'wglib/core/WgLib' {
       private elements;
       private onContextMenuCallbacks;
       private isDestroyed;
-      constructor(config: WgSettings, onLoaded?: (() => void) | undefined, onContextMenu?: (args: UIEvent) => void);
+      constructor(config: WgSettings, onLoaded?: (() => void) | undefined, onContextMenu?: (args: InteractionArgs) => void);
       private initStage;
       addTextBox(title: string, cssClass: string, interaction: PointerInterface): WgLib;
       addElement(element: GraphElement, ...rest: GraphElement[]): WgLib;
-      addEventListner(event: "contextmenu", func: (args: UIEvent) => void): void;
+      removeElement(element: GraphElement): WgLib;
+      addEventListner(event: "contextmenu", func: (args: InteractionArgs) => void): void;
       getViewport(): Viewport | undefined;
       getRenderer(): AbstractRenderer;
       destroy(): void;

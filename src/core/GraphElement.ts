@@ -21,7 +21,7 @@ export default abstract class GraphElement extends Container {
       this.setPosition(this.vis?.left || 0, this.vis?.top || 0);
       this.on("childAdded", (child: DisplayObject) => {
          if (child instanceof GraphElement)
-            (child as GraphElement).setWgLibParent(this.wglibParent);
+            child.setWgLibParent(this.wglibParent);
       });
    }
 
