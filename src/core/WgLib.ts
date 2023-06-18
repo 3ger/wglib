@@ -1,19 +1,23 @@
 import { Viewport } from "pixi-viewport";
 import { WgSettings } from "./WgSettings";
 import { TextBox } from "./TextBox";
-import { PointerInterface } from "./InteractionInterface";
+import { InteractionArgs, PointerInterface } from "./InteractionInterface";
 import GraphElement from "./GraphElement";
 import { CssCache } from "../helpers/CssHelper";
-import { AbstractRenderer, Application, utils } from "pixi.js";
+import { AbstractRenderer, Application, InteractionEvent, utils } from "pixi.js";
 
 export class WgLib {
    private pixiApp: Application;
    private viewPort?: Viewport;
    private elements: Array<GraphElement> = [];
-   private onContextMenuCallbacks: Array<(args: UIEvent) => void> = [];
+   private onContextMenuCallbacks: Array<(args: InteractionArgs) => void> = [];
    private isDestroyed = false;
 
-   constructor(private config: WgSettings, private onLoaded?: () => void, onContextMenu?: (args: UIEvent) => void) {
+   constructor(
+      private config: WgSettings,
+      private onLoaded?: () => void,
+      onContextMenu?: (args: InteractionArgs) => void
+   ) {
       config = config || <WgSettings>{};
 
       utils.skipHello();
@@ -33,13 +37,20 @@ export class WgLib {
 
       if (onContextMenu) this.onContextMenuCallbacks.push(onContextMenu);
 
-      // make sure no events from browser are done by the browser on this element
+      // // make sure no events from browser are done by the browser on this element
       this.pixiApp.view.oncontextmenu = (e: MouseEvent) => {
          e.preventDefault();
-         this.onContextMenuCallbacks.forEach(fncCall => {
-            fncCall(e);
-         });
       };
+
+      // TODO: context is done by right click for now
+      // this needs chaning once moved to another version
+      // and maybe needs PR for PixiViewport that 
+      // allows drag() to have actual drag key set (like mouse key)
+      this.pixiApp.stage.on("rightclick", (e: InteractionEvent) => {
+         this.onContextMenuCallbacks.forEach(fncCall => {
+            fncCall(new InteractionArgs(e.currentTarget, e.data));
+         });
+      });
 
       this.pixiApp.view.onwheel = (a) => {
          a.preventDefault();
@@ -108,7 +119,19 @@ export class WgLib {
       return this;
    }
 
-   public addEventListner(event: "contextmenu", func: (args: UIEvent) => void): void {
+   public removeElement(element: GraphElement): WgLib {
+      const vP = this.getViewport();
+      if (vP === undefined) {
+         throw ("Viewport is not set.");
+      }
+
+      this.elements = this.elements.filter(x => x !== element);
+      vP.removeChild(element.getContainer());
+
+      return this;
+   }
+
+   public addEventListner(event: "contextmenu", func: (args: InteractionArgs) => void): void {
       switch (event) {
          case "contextmenu":
             this.onContextMenuCallbacks.push(func);
