@@ -44,14 +44,11 @@ export class WgLib {
 
       // TODO: context is done by right click for now
       // this needs chaning once moved to another version
-      // and maybe needs PR for PixiViewport that 
-      // allows drag() to have actual drag key set (like mouse key)
       this.pixiApp.stage.on("rightclick", (e: InteractionEvent) => {
          this.onContextMenuCallbacks.forEach(fncCall => {
             fncCall(new InteractionArgs(e.currentTarget, e.data));
          });
       });
-
       this.pixiApp.view.onwheel = (a) => {
          a.preventDefault();
       };
@@ -79,7 +76,7 @@ export class WgLib {
 
       // activate plugins
       this.viewPort
-         .drag({ clampWheel: true, underflow: "center" })
+         .drag({ clampWheel: true, underflow: "center", mouseButtons: "left" })
          .pinch()
          .wheel()
          .clampZoom({

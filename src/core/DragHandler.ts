@@ -5,7 +5,7 @@ import { InteractionArgs } from "./InteractionInterface";
 export class DragHandler {
    private isDragging = false;
    private dragData?: InteractionEvent;
-   private elementPointerOffset: { x: number; y: number } = { x: 0, y: 0 };
+   private elementPointerOffset: { x: number; y: number; } = { x: 0, y: 0 };
    private moveListeners: Array<(data?: InteractionData) => void> = [];
    private readonly element: DisplayObject;
 
@@ -41,6 +41,8 @@ export class DragHandler {
    }
 
    private onDragStart(event: InteractionEvent) {
+      if (event.data.button !== 0) return; // TODO: for now hard block all other drag buttons
+
       const ev = new InteractionArgs(this.graphElement, event?.data);
       if (this.onDragStartCallback) this.onDragStartCallback(ev);
 
