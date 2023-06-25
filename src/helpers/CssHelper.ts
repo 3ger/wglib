@@ -147,6 +147,7 @@ export class VisualProperties {
    readonly opacity?: number;
    readonly cursor?: string;
    readonly animationDuration?: number;
+   readonly rowGap?: number;
 
    // this.cachedCss.style.getPropertyValue("--own-prop")
    constructor(cssstyle?: CSSStyleRule) {
@@ -181,6 +182,7 @@ export class VisualProperties {
       this.opacity = Number.parseFloat(cssstyle?.style.opacity || "1");
       this.cursor = cssstyle?.style.cursor;
       this.animationDuration = Number.parseFloat(cssstyle?.style.animationDuration || "0");
+      this.rowGap = Number.parseInt(cssstyle?.style.rowGap || "0");
    }
 
    private getTextStyle(cssstyle?: CSSStyleRule): TextStyle {

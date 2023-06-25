@@ -19,14 +19,18 @@ export class BoxContainer extends GraphElement {
    public addBox(box: Box, asElement = true): BoxContainer {
       if (asElement) {
          const nextBoxPosition = this.getNextBoxPosition();
+         const gap = this.vis.rowGap || 0;
          this.elements.push(box);
-         box.setPosition(nextBoxPosition.x, nextBoxPosition.y);
+         box.setPosition(
+            nextBoxPosition.x,
+            this.elements.length > 1 ? nextBoxPosition.y + gap : nextBoxPosition.y
+         );
       }
       this.addChild(box);
       return this;
    }
 
-   private getNextBoxPosition(): { x: number; y: number } {
+   private getNextBoxPosition(): { x: number; y: number; } {
       let posY = 0;
       if (this.elements.length > 0) {
          const lastElement = this.elements[this.elements.length - 1];

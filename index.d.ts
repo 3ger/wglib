@@ -418,6 +418,7 @@ declare module 'wglib/helpers/CssHelper' {
       readonly opacity?: number;
       readonly cursor?: string;
       readonly animationDuration?: number;
+      readonly rowGap?: number;
       constructor(cssstyle?: CSSStyleRule);
       private getTextStyle;
   }
@@ -475,6 +476,7 @@ declare module 'wglib/index' {
   export { TextBox } from "wglib/core/TextBox";
   export { TextInput } from "wglib/core/TextInput";
   export { BoxContainer } from "wglib/core/BoxContainer";
+  export { default as Box } from "wglib/core/Box";
 
 }
 declare module 'wglib' {

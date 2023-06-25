@@ -12,3 +12,4 @@ export { InteractionState } from "./core/InteractionState";
 export { TextBox } from "./core/TextBox";
 export { TextInput } from "./core/TextInput";
 export { BoxContainer } from "./core/BoxContainer";
+export { default as Box } from "./core/Box";
