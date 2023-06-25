@@ -11,6 +11,8 @@ export class InteractionManager {
    private hoverFilter!: Filter;
    private clickFilter?: Filter;
    public canDrag: boolean;
+   private hoverCursor: string = "default";
+   private clickCursor: string = "default";
 
    constructor(private parent: GraphElement, private interaction: PointerInterface) {
       const container = this.parent.getContainer();
@@ -27,6 +29,7 @@ export class InteractionManager {
 
       if (vis) {
          this.clickFilter = new filters.AlphaFilter(vis.opacity || 0.5);
+         this.clickCursor = vis?.cursor || "default";
       }
 
       if (this.canDrag) {
@@ -169,7 +172,9 @@ export class InteractionManager {
    private applyClickFilter() {
       if (this.clickFilter) {
          const container = this.parent.getContainer();
-         if (!container.filters?.includes(this.clickFilter)) container.filters?.push(this.clickFilter);
+         if (!container.filters?.includes(this.clickFilter))
+            container.filters?.push(this.clickFilter);
+         this.parent.getContainer().cursor = this.clickCursor;
       }
    }
 
@@ -182,12 +187,14 @@ export class InteractionManager {
       ) {
          container?.filters.splice(container?.filters.indexOf(this.clickFilter), 1);
       }
+      this.parent.getContainer().cursor = this.hoverCursor;
    }
 
    private createHoverFilterAndCursor(): void {
       const vis = CssCache.getVisualProperties(this.parent.getCssClass() + ":hover");
       this.hoverFilter = new filters.AlphaFilter(vis?.opacity || 1.2);
-      this.parent.getContainer().cursor = vis?.cursor || "";
+      this.hoverCursor = vis?.cursor || "default";
+      this.parent.getContainer().cursor = this.hoverCursor;
    }
 
    private dragStart(e: InteractionArgs) {
