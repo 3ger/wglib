@@ -27,7 +27,7 @@ export class CssCache {
       if (CssCache.IsInit && onCompleteCallback)
          onCompleteCallback();
 
-      if (CssCache.IsInit) 
+      if (CssCache.IsInit)
          return;
 
       this.IsInit = true;
@@ -177,22 +177,22 @@ export class VisualProperties {
       this.top = Number.parseInt(cssstyle?.style?.top || "0");
       this.left = Number.parseInt(cssstyle?.style?.left || "0");
       this.verticalAlign = cssstyle?.style?.verticalAlign;
-      this.display = cssstyle?.style.display;
+      this.display = cssstyle?.style.display || "block";
       this.opacity = Number.parseFloat(cssstyle?.style.opacity || "1");
       this.cursor = cssstyle?.style.cursor;
       this.animationDuration = Number.parseFloat(cssstyle?.style.animationDuration || "0");
    }
 
    private getTextStyle(cssstyle?: CSSStyleRule): TextStyle {
-      return <TextStyle>{
+      return {
          fill: utils.string2hex(rgbToHex(cssstyle?.style?.color || "rgb(0,0,0)")),
          fontSize: cssstyle?.style?.fontSize || "24px",
          fontStyle: cssstyle?.style?.fontStyle || "normal",
          fontWeight: cssstyle?.style?.fontWeight || "normal",
          padding: Number.parseInt(cssstyle?.style?.padding || "0"),
          align: cssstyle?.style?.textAlign || "left",
-         fontFamily: cssstyle?.style?.fontFamily,
-         fontVariant: cssstyle?.style.fontVariant,
-      };
+         fontFamily: cssstyle?.style?.fontFamily || '"Courier New", Courier, monospace',
+         fontVariant: cssstyle?.style.fontVariant || "normal",
+      } as TextStyle;
    }
 }
