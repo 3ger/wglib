@@ -2,7 +2,11 @@ declare module 'wglib/core/Box' {
   import GraphElement from "wglib/core/GraphElement";
   import { PointerInterface } from "wglib/core/InteractionInterface";
   export default class Box extends GraphElement {
-      constructor(cssClass?: string, interaction?: PointerInterface, noDrawCall?: boolean);
+      private readonly sizeOverride?;
+      constructor(cssClass?: string, interaction?: PointerInterface, sizeOverride?: {
+          width?: number | undefined;
+          height?: number | undefined;
+      } | undefined, noDrawCall?: boolean);
       protected draw(): void;
   }
 
@@ -225,6 +229,8 @@ declare module 'wglib/core/InteractionManager' {
       private hoverFilter;
       private clickFilter?;
       canDrag: boolean;
+      private hoverCursor;
+      private clickCursor;
       constructor(parent: GraphElement, interaction: PointerInterface);
       private shouldPreventPropagation;
       private handlePointerUp;
