@@ -69,9 +69,14 @@ declare module 'wglib/core/Connector' {
 
 }
 declare module 'wglib/core/ConnectorEnd' {
+  import { ConnectorStart } from "wglib/core/ConnectorStart";
   import { ConnectorSocket } from "wglib/core/ConnectorSocket";
   import { Connector } from "wglib/core/Connector";
+  import { PointerInterface } from "wglib/core/InteractionInterface";
   export class ConnectorEnd extends ConnectorSocket {
+      private onConnected?;
+      private canConnect?;
+      constructor(text: string, cssClass: string, onConnected?: ((other: ConnectorStart) => void) | undefined, canConnect?: ((other: ConnectorStart) => boolean) | undefined, interaction?: PointerInterface);
       getOutOffset(): number;
       canConnectTo(other: ConnectorSocket): boolean;
       getOutPosition(): {
@@ -83,16 +88,16 @@ declare module 'wglib/core/ConnectorEnd' {
 
 }
 declare module 'wglib/core/ConnectorSocket' {
-  import Box from "wglib/core/Box";
   import { Connector } from "wglib/core/Connector";
   import { PointerInterface } from "wglib/core/InteractionInterface";
   import { VisualLine } from "wglib/core/VisualLine";
-  export abstract class ConnectorSocket extends Box {
+  import { TextBox } from "wglib/core/TextBox";
+  export abstract class ConnectorSocket extends TextBox {
       private interaction?;
       protected currentDragOut?: VisualLine | undefined;
       protected connectors: Array<Connector>;
       private elToFollow;
-      constructor(cssClass: string, interaction?: PointerInterface | undefined);
+      constructor(text: string, cssClass: string, interaction?: PointerInterface | undefined);
       private dragEnd;
       private removeDragOut;
       private dragStart;
@@ -114,8 +119,13 @@ declare module 'wglib/core/ConnectorSocket' {
 }
 declare module 'wglib/core/ConnectorStart' {
   import { Connector } from "wglib/core/Connector";
+  import { ConnectorEnd } from "wglib/core/ConnectorEnd";
   import { ConnectorSocket } from "wglib/core/ConnectorSocket";
+  import { PointerInterface } from "wglib/core/InteractionInterface";
   export class ConnectorStart extends ConnectorSocket {
+      private onConnected?;
+      private canConnect?;
+      constructor(text: string, cssClass: string, onConnected?: ((other: ConnectorEnd) => void) | undefined, canConnect?: ((other: ConnectorEnd) => boolean) | undefined, interaction?: PointerInterface);
       getOutOffset(): number;
       canConnectTo(other: ConnectorSocket): boolean;
       getOutPosition(): {

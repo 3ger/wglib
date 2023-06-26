@@ -1,4 +1,5 @@
 import { BoxContainer, ConnectorEnd, ConnectorStart, InputInterface, PointerInterface, TextBox, TextInput, WgLib, WgSettings } from "../src";
+import Box from "../src/core/Box";
 const assert = chai.assert;
 const expect = chai.expect;
 
@@ -134,9 +135,14 @@ function visual_test(wgl: WgLib) {
    });
    wgl.addElement(bxContainer);
    bxContainer
-      .addBox(new TextBox("containerBox", "containerBox"), false)
+      .addBox(new Box("containerBox"), false)
       .addBox(new TextBox("defaultBox1", "defaultBox"))
       .addBox(new TextBox("defaultBox2", "defaultBox"))
+      .addBox(new TextBox("defaultBox3", "defaultBox"))
+      .addBox(new TextBox("defaultBox3", "defaultBox"))
+      .addBox(new TextBox("defaultBox3", "defaultBox"))
+      .addBox(new TextBox("defaultBox3", "defaultBox"))
+      .addBox(new TextBox("defaultBox3", "defaultBox"))
       .addBox(new TextBox("defaultBox3", "defaultBox"))
       .addBox(
          new TextBox("btnTest", "testBox2", <PointerInterface>{
@@ -150,10 +156,10 @@ function visual_test(wgl: WgLib) {
       );
    bxContainer.setPosition(450, 450);
 
-   const conStart = new ConnectorStart("defaultConnectionStartBox");
+   const conStart = new ConnectorStart("B","defaultConnectionStartBox");
    bxContainer.getContainer().addChild(conStart.getContainer());
 
-   const conEnd = new ConnectorEnd("defaultConnectionEndBox");
+   const conEnd = new ConnectorEnd("A", "defaultConnectionEndBox");
    testComponent2.getContainer().addChild(conEnd.getContainer());
 
    // wgl.addElement(bxContainer);

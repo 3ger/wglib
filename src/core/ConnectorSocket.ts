@@ -3,14 +3,15 @@ import Box from "./Box";
 import { Connector } from "./Connector";
 import { InteractionArgs, PointerInterface } from "./InteractionInterface";
 import { VisualLine } from "./VisualLine";
+import { TextBox } from "./TextBox";
 
-export abstract class ConnectorSocket extends Box {
+export abstract class ConnectorSocket extends TextBox {
    protected currentDragOut?: VisualLine | undefined;
    protected connectors: Array<Connector> = [];
    private elToFollow = new Container();
 
-   constructor(cssClass: string, private interaction?: PointerInterface) {
-      super(cssClass, <PointerInterface>{
+   constructor(text: string, cssClass: string, private interaction?: PointerInterface) {
+      super(text, cssClass, <PointerInterface>{
          canDrag: false,
          preventPropagation: false,
          onPointerDown: (e) => this.dragStart(e),
@@ -81,7 +82,7 @@ export abstract class ConnectorSocket extends Box {
       this.elToFollow.y = toFollowPos?.y || arg.data.global.y;
    }
 
-   protected drawConnectionLine(toPos: { x: number; y: number }): void {
+   protected drawConnectionLine(toPos: { x: number; y: number; }): void {
       if (this.currentDragOut) {
          const start = this.getOutPosition();
          const mousePos = this.getViewport().toWorld(toPos.x, toPos.y);
@@ -97,7 +98,7 @@ export abstract class ConnectorSocket extends Box {
 
    public abstract getOutOffset(): number;
 
-   public abstract getOutPosition(): { x: number; y: number };
+   public abstract getOutPosition(): { x: number; y: number; };
 
    public abstract addConnectorTo(
       hitObject: ConnectorSocket,
