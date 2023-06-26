@@ -107,6 +107,7 @@ declare module 'wglib/core/ConnectorSocket' {
           y: number;
       }): void;
       getConnectors(): Array<Connector>;
+      onHasConnected(con: Connector): void;
       abstract canConnectTo(other: ConnectorSocket): boolean;
       abstract getOutOffset(): number;
       abstract getOutPosition(): {

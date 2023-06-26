@@ -6,6 +6,7 @@ import { VisualLine } from "./VisualLine";
 import { TextBox } from "./TextBox";
 
 export abstract class ConnectorSocket extends TextBox {
+
    protected currentDragOut?: VisualLine | undefined;
    protected connectors: Array<Connector> = [];
    private elToFollow = new Container();
@@ -92,6 +93,10 @@ export abstract class ConnectorSocket extends TextBox {
 
    public getConnectors(): Array<Connector> {
       return this.connectors;
+   }
+
+   public onHasConnected(con: Connector) {
+      this.connectors.push(con);
    }
 
    public abstract canConnectTo(other: ConnectorSocket): boolean;

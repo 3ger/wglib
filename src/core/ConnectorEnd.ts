@@ -40,6 +40,7 @@ export class ConnectorEnd extends ConnectorSocket {
          const con = connector || new Connector(hitObject, this, connectorClass);
          con.setWgLibParent(this.wglibParent);
          this.connectors.push(con);
+         hitObject.onHasConnected(con);
          this.onConnected?.call(this, hitObject);
          return con;
       }
