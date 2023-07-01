@@ -76,7 +76,7 @@ declare module 'wglib/core/ConnectorEnd' {
   export class ConnectorEnd extends ConnectorSocket {
       private onConnected?;
       private canConnect?;
-      constructor(text: string, cssClass: string, onConnected?: ((other: ConnectorStart) => void) | undefined, canConnect?: ((other: ConnectorStart) => boolean) | undefined, interaction?: PointerInterface);
+      constructor(text: string, cssClass: string, onConnected?: ((from: ConnectorStart, to: ConnectorEnd) => void) | undefined, canConnect?: ((other: ConnectorStart) => boolean) | undefined, interaction?: PointerInterface);
       getOutOffset(): number;
       canConnectTo(other: ConnectorSocket): boolean;
       getOutPosition(): {
@@ -126,7 +126,7 @@ declare module 'wglib/core/ConnectorStart' {
   export class ConnectorStart extends ConnectorSocket {
       private onConnected?;
       private canConnect?;
-      constructor(text: string, cssClass: string, onConnected?: ((other: ConnectorEnd) => void) | undefined, canConnect?: ((other: ConnectorEnd) => boolean) | undefined, interaction?: PointerInterface);
+      constructor(text: string, cssClass: string, onConnected?: ((from: ConnectorStart, to: ConnectorEnd) => void) | undefined, canConnect?: ((other: ConnectorEnd) => boolean) | undefined, interaction?: PointerInterface);
       getOutOffset(): number;
       canConnectTo(other: ConnectorSocket): boolean;
       getOutPosition(): {

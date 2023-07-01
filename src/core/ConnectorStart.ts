@@ -9,7 +9,7 @@ export class ConnectorStart extends ConnectorSocket {
    constructor(
       text: string,
       cssClass: string,
-      private onConnected?: (other: ConnectorEnd) => void,
+      private onConnected?: (from: ConnectorStart, to: ConnectorEnd) => void,
       private canConnect?: (other: ConnectorEnd) => boolean,
       interaction?: PointerInterface
    ) {
@@ -41,7 +41,7 @@ export class ConnectorStart extends ConnectorSocket {
          con.setWgLibParent(this.wglibParent);
          this.connectors.push(con);
          hitObject.onHasConnected(con);
-         this.onConnected?.call(this, hitObject);
+         this.onConnected?.call(this, this, hitObject);
          return con;
       }
       return undefined;
