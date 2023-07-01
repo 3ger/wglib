@@ -95,7 +95,7 @@ declare module 'wglib/core/ConnectorSocket' {
   export abstract class ConnectorSocket extends TextBox {
       private interaction?;
       protected currentDragOut?: VisualLine | undefined;
-      protected connectors: Array<Connector>;
+      private connectors;
       private elToFollow;
       constructor(text: string, cssClass: string, interaction?: PointerInterface | undefined);
       private dragEnd;
@@ -106,8 +106,9 @@ declare module 'wglib/core/ConnectorSocket' {
           x: number;
           y: number;
       }): void;
-      getConnectors(): Array<Connector>;
-      onHasConnected(con: Connector): void;
+      getConnectors(): Connector[];
+      addConnector(con: Connector): void;
+      removeConnector(con: Connector): void;
       abstract canConnectTo(other: ConnectorSocket): boolean;
       abstract getOutOffset(): number;
       abstract getOutPosition(): {

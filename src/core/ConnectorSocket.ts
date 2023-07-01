@@ -1,5 +1,4 @@
 import { Container, InteractionEvent, InteractionManager } from "pixi.js";
-import Box from "./Box";
 import { Connector } from "./Connector";
 import { InteractionArgs, PointerInterface } from "./InteractionInterface";
 import { VisualLine } from "./VisualLine";
@@ -8,7 +7,7 @@ import { TextBox } from "./TextBox";
 export abstract class ConnectorSocket extends TextBox {
 
    protected currentDragOut?: VisualLine | undefined;
-   protected connectors: Array<Connector> = [];
+   private connectors: Connector[] = [];
    private elToFollow = new Container();
 
    constructor(text: string, cssClass: string, private interaction?: PointerInterface) {
@@ -16,8 +15,7 @@ export abstract class ConnectorSocket extends TextBox {
          canDrag: false,
          preventPropagation: false,
          onPointerDown: (e) => this.dragStart(e),
-         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-         onPointerUp: (e) => this.removeDragOut(),
+         onPointerUp: () => this.removeDragOut(),
          onPointerUpOutside: (e) => this.dragEnd(e),
          onPointerOut: interaction?.onPointerOut,
          onPointerOver: interaction?.onPointerOver,
@@ -91,12 +89,16 @@ export abstract class ConnectorSocket extends TextBox {
       }
    }
 
-   public getConnectors(): Array<Connector> {
+   public getConnectors(): Connector[] {
       return this.connectors;
    }
 
-   public onHasConnected(con: Connector) {
+   public addConnector(con: Connector) {
       this.connectors.push(con);
+   }
+
+   public removeConnector(con: Connector) {
+      this.connectors = this.connectors.filter(c => c !== con);
    }
 
    public abstract canConnectTo(other: ConnectorSocket): boolean;
