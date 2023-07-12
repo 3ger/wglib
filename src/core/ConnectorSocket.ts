@@ -14,9 +14,9 @@ export abstract class ConnectorSocket extends TextBox {
       super(text, cssClass, <PointerInterface>{
          canDrag: false,
          preventPropagation: false,
-         onPointerDown: (e) => this.dragStart(e),
-         onPointerUp: () => this.removeDragOut(),
-         onPointerUpOutside: (e) => this.dragEnd(e),
+         onPointerDown: (e) => { e.stopPropagation(); this.dragStart(e); },
+         onPointerUp: (e) => this.removeDragOut(),
+         onPointerUpOutside: (e) => { e.stopPropagation(); this.dragEnd(e); },
          onPointerOut: interaction?.onPointerOut,
          onPointerOver: interaction?.onPointerOver,
          onPointerTap: interaction?.onPointerTap,
@@ -27,11 +27,6 @@ export abstract class ConnectorSocket extends TextBox {
    }
 
    private dragEnd(el: InteractionArgs): void {
-      if (this.interaction && this.interaction.canDrag && this.interaction.onDragEnd) {
-         this.interaction.onDragEnd(el);
-         if (el.shouldStopPropagation()) return;
-      }
-
       if (this.currentDragOut) {
          const interaction = this.getViewport().options.interaction as InteractionManager;
          if (interaction) {
@@ -41,6 +36,10 @@ export abstract class ConnectorSocket extends TextBox {
             }
          }
          this.removeDragOut();
+      }
+
+      if (this.interaction && this.interaction.canDrag && this.interaction.onDragEnd) {
+         this.interaction.onDragEnd(el);
       }
    }
 
@@ -57,7 +56,7 @@ export abstract class ConnectorSocket extends TextBox {
    private dragStart(e: InteractionArgs): void {
       if (this.interaction && this.interaction.canDrag && this.interaction.onDragStart) {
          this.interaction.onDragStart(e);
-         if (e.shouldStopPropagation()) return;
+         // if (e.shouldStopPropagation()) return;
       }
       const viewPort = this.getViewport();
       this.currentDragOut = new VisualLine();
@@ -73,7 +72,7 @@ export abstract class ConnectorSocket extends TextBox {
       if (this.interaction && this.interaction.canDrag && this.interaction.onDragging) {
          const ev = new InteractionArgs(this, arg.data);
          if (this.interaction.onDragEnd) this.interaction.onDragEnd(ev);
-         if (ev.shouldStopPropagation()) return;
+         // if (ev.shouldStopPropagation()) return;
       }
       this.drawConnectionLine(arg.data.global);
       const toFollowPos = this.getViewport().toWorld(arg.data.global);

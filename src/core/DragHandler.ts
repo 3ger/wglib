@@ -64,8 +64,8 @@ export class DragHandler {
       });
    }
 
-   private onDragEnd() {
-      const ev = new InteractionArgs(this.graphElement);
+   private onDragEnd(event: InteractionEvent) {
+      const ev = new InteractionArgs(this.graphElement, event?.data, event.target);
       if (this.onDragEndCallback) this.onDragEndCallback(ev);
 
       if (ev.shouldStopPropagation()) return;

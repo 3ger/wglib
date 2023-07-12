@@ -221,8 +221,9 @@ declare module 'wglib/core/InteractionInterface' {
   export class InteractionArgs {
       element: DisplayObject;
       eventData?: InteractionData | undefined;
+      originElement?: DisplayObject | undefined;
       private stop;
-      constructor(element: DisplayObject, eventData?: InteractionData | undefined);
+      constructor(element: DisplayObject, eventData?: InteractionData | undefined, originElement?: DisplayObject | undefined);
       stopPropagation(): void;
       shouldStopPropagation(): boolean;
   }
